@@ -2,7 +2,25 @@
 #include "mlx.h"
 
 
-void draw_line(int x1, int y1, int x2, int y2, void *mlx, void *win) {
+
+typedef struct{
+    float   x;
+    float   y;
+    float   z;
+} Cord; 
+
+//iso_x = x - y หรือ iso_y = (x + y) / 2 - z
+float toIso_x(Cord* c)
+{
+    return (c->x - c->y);
+}
+
+float toIso_y(Cord* c)
+{
+    return ((c->x + c->y) / 2 - c->z);
+}
+
+void draw_line(int x1, int y1, int x2, int y2, void *mlx, void *win, int color) {
     int dx = abs(x2 - x1);
     int dy = abs(y2 - y1);
     int sx = (x1 < x2) ? 1 : -1;
@@ -10,7 +28,7 @@ void draw_line(int x1, int y1, int x2, int y2, void *mlx, void *win) {
     int err = dx - dy;
 
     while (1) {
-        mlx_pixel_put(mlx, win, x1, y1, 0xFFFFFF); 
+        mlx_pixel_put(mlx, win, x1, y1, color); 
         if (x1 == x2 && y1 == y2) break;
         int e2 = err * 2;
         if (e2 > -dy) { err -= dy; x1 += sx; }
@@ -18,127 +36,142 @@ void draw_line(int x1, int y1, int x2, int y2, void *mlx, void *win) {
     }
 }
 
-struct cord {
-    int x;
-    int y;
-    int z;
-};
 
-int main() {
-    int size_x = 19;
-    int size_y = 12;
-
-    int *mlx_connection;
-    int *mlx_window;
-
-    mlx_connection = mlx_init();
-    mlx_window = mlx_new_window(mlx_connection, 1920, 1080, "mywindow");
+int main(void)
+{
+    int w = 20;
+    int h = 20;
+    int start_x = 900;
+    int start_y = 100;
     
+    int gap = 50;
 
-    int array[12][19] = {
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // c = 18
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // c = 37
-        {0, 0, 10, 10, 0, 0, 10, 10, 0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 0},
-        {0, 0, 10, 10, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0},
-        {0, 0, 10, 10, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0},
-        {0, 0, 10, 10, 10, 10, 10, 10, 0, 0, 0, 0, 10, 10, 10, 10, 0, 0, 0},
-        {0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 10, 10, 10, 10, 10, 10, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    int array[20][20] = {
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 50, 50, 0, 0, 0, 0, 0, 0, 0, 50, 50, 50, 0, 0, 0, 0, 0},
+        {0, 0, 0, 50, 50, 0, 0, 0, 0, 0, 0, 0, 50, 50, 50, 50, 0, 0, 0, 0},
+        {0, 0, 0, 50, 50, 0, 0, 0, 0, 0, 0, 50, 50, 0, 50, 50, 50, 0, 0, 0},
+        {0, 0, 0, 50, 50, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0, 50, 50, 0, 0, 0},
+        {0, 0, 0, 50, 50, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0, 50, 50, 0, 0, 0},
+        {0, 0, 0, 50, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0, 0},
+        {0, 0, 0, 50, 50, 50, 50, 50, 0, 0, 0, 0, 0, 0, 50, 50, 50, 0, 0, 0},
+        {0, 0, 0, 50, 50, 50, 50, 50, 0, 0, 0, 0, 0, 50, 50, 50, 0, 0, 0, 0},
+        {0, 0, 0, 50, 50, 50, 50, 50, 0, 0, 0, 0, 50, 50, 50, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 50, 50, 0, 0, 0, 0, 50, 50, 50, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 50, 50, 0, 0, 0, 0, 50, 50, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 50, 50, 0, 0, 0, 0, 50, 50, 50, 50, 50, 50, 0, 0, 0},
+        {0, 0, 0, 0, 0, 50, 50, 0, 0, 0, 0, 50, 50, 50, 50, 50, 50, 0, 0, 0},
+        {0, 0, 0, 0, 0, 50, 50, 0, 0, 0, 0, 50, 50, 50, 50, 50, 50, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
-    struct cord crd[size_x * size_y];
+    Cord c[20][20];
 
-    int x = 0;
-    int y = 0;
-    int c = 0;
-    int start_x = 100;
-    int start_y = 100;
-    int gap = 50;
-    while (y < size_y) //fill in array
+    int i = 0;
+    int j = 0;
+    while (j < h)
     {
-        while (x < size_x)
+        while (i < w)
         {
-            crd[c].x = x * gap;
-            crd[c].y = y * gap;
-            crd[c].z = array[y][x];
-            c++;
-            x++;
+            // printf("i:%d j:%d val:%d \n", i, j, array[j][i]);
+            c[j][i].x = i * gap;
+            c[j][i].y = j * gap;
+            c[j][i].z = array[i][j];
+            i++;
         }
-        x = 0;
-        y++;
+        i = 0;
+        j++;
     }
 
-    x = 0;
-    y = 0;
-    c = 0;
-    int *array_sturct[12][19];
-    while (y < size_y) //fill in array
+    //fill data to struct array
+    printf("fill data to struct array\n");
+    i = 0;
+    j = 0;
+    while (j < h)
     {
-        while (x < size_x)
+        while (i < w)
         {
-            array_sturct[y][x] = &crd[c];
-            c++;
-            x++;
+            printf("(x:%.1f y:%.1f z:%.1f)", c[j][i].x, c[j][i].y ,c[j][i].z);
+            i++;
         }
-        x = 0;
-        y++;
+        printf("\n");
+        i = 0;
+        j++;
     }
 
-    x = 0;
-    y = 0;
-    c = 0;
-    while (y < size_y)
+    //print convert to iso value
+    printf("print convert to iso value\n");
+    i = 0;
+    j = 0;
+    while (j < h)
     {
-        while (x < size_x)
+        while (i < w)
         {
-            printf("cord[%d] = x:%d y:%d z:%d\n", c, crd[c].x, crd[c].y, crd[c].z);
-            mlx_pixel_put(mlx_connection, mlx_window, crd[c].x + start_x, crd[c].y + start_y, 0xFFFFFF);
-            c++;
-            x++;
+            printf("(x:%.1f y:%.1f )", toIso_x(&c[j][i]), toIso_y(&c[j][i]));
+            i++;
         }
-        x = 0;
-        y++;
-    }
-    x = 0;
-    y = 0;
-    c = 0;
-    int count_x = 0;
-    while (y < size_y)
-    {
-        while (x < size_x) // x < 19
-        {
-            if (count_x == size_x - 1)
-                draw_line(crd[c].x + start_x, crd[c].y + start_y, crd[c].x + start_x, crd[c].y + start_y, mlx_connection, mlx_window);
-            else 
-                draw_line(crd[c].x + start_x, crd[c].y + start_y, crd[c + 1].x + start_x, crd[c + 1].y + start_y, mlx_connection, mlx_window);
-            c++;
-            x++;
-            count_x++;
-        }
-        count_x = 0;
-        x = 0;
-        y++;
+        printf("\n");
+        i = 0;
+        j++;
     }
 
-    x = 0;
-    y = 0;
-    c = 0;
-    while (y < size_y)
+    int *mlx_ptr;
+    int *mlx_window;
+
+    mlx_ptr = mlx_init();
+    mlx_window = mlx_new_window(mlx_ptr, 1920, 1080, "mywindow");
+
+    //draw line left to right
+    i = 0;
+    j = 0;
+    while (j < h)
     {
-        while (x < size_x) // x < 19
+        while (i < w)
         {
-            array_sturct[y][x];
-            c++;
-            x++;
+            if (i < w - 1)
+                draw_line(toIso_x(&c[j][i]) + start_x, toIso_y(&c[j][i]) + start_y, toIso_x(&c[j][i + 1]) + start_x, toIso_y(&c[j][i + 1]) + start_y, mlx_ptr, mlx_window, 0xFC3D03);
+            mlx_pixel_put(mlx_ptr, mlx_window, toIso_x(&c[j][i]) + start_x, toIso_y(&c[j][i]) + start_y, 0xFFFFFF);
+            i++;
         }
-        x = 0;
-        y++;
+        printf("\n");
+        i = 0;
+        j++;
     }
 
+    //draw line up to down
+    i = 0;
+    j = 0;
+    while (i < w)
+    {
+        while (j < h)
+        {
+            if (j < h - 1)
+                draw_line(toIso_x(&c[j][i]) + start_x, toIso_y(&c[j][i]) + start_y, toIso_x(&c[j + 1][i]) + start_x, toIso_y(&c[j + 1][i]) + start_y, mlx_ptr, mlx_window, 0x00C8FF);
+            j++;
+        }
+        j = 0;
+        i++;
+    }
 
-    mlx_loop(mlx_connection);
-    return 0;
+    //put cord point
+    i = 0;
+    j = 0;
+    while (j < h)
+    {
+        while (i < w)
+        {
+            mlx_pixel_put(mlx_ptr, mlx_window, toIso_x(&c[j][i]) + start_x, toIso_y(&c[j][i]) + start_y, 0xFFFFFF);
+            i++;
+        }
+        printf("\n");
+        i = 0;
+        j++;
+    }
+
+    mlx_loop(mlx_ptr);
+    return (0);
 }
