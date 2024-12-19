@@ -1,7 +1,10 @@
 #include "fdf.h"
 #include "mlx.h"
-
-
+#include "get_next_line.h"
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include <X11/X.h>
 
 typedef struct{
     float   x;
@@ -19,6 +22,14 @@ float toIso_y(Cord* c)
 {
     return ((c->x + c->y) / 2 - c->z);
 }
+
+int *mymouse(int *gap)
+{
+    write(1, "test", 4);
+    *gap += 10;
+    return (0);
+}
+
 
 void draw_line(int x1, int y1, int x2, int y2, void *mlx, void *win, int color) {
     int dx = abs(x2 - x1);
@@ -39,12 +50,28 @@ void draw_line(int x1, int y1, int x2, int y2, void *mlx, void *win, int color) 
 
 int main(void)
 {
+    int fd;
+
+    char *line;
+	int count = 0; 
+    fd = open("pyra.fdf", O_RDONLY);
+
+	if (fd < 0)
+		return 1;
+			while ((line = get_next_line(fd)) && count < 25) {
+                printf("line %d : %s", count++, line);
+				free(line);
+		}
+		free(line);
+		close(fd);
+
     int w = 20;
     int h = 20;
     int start_x = 900;
     int start_y = 100;
     
-    int gap = 50;
+    int gap = 25; 
+    int *gap_ptr = &gap;
 
     int array[20][20] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -87,8 +114,8 @@ int main(void)
         j++;
     }
 
-    //fill data to struct array
-    printf("fill data to struct array\n");
+    //put data to struct array
+    printf("put data to struct array\n");
     i = 0;
     j = 0;
     while (j < h)
@@ -103,8 +130,8 @@ int main(void)
         j++;
     }
 
-    //print convert to iso value
-    printf("print convert to iso value\n");
+    //print convert to isometic value
+    printf("print convert to isometic value\n");
     i = 0;
     j = 0;
     while (j < h)
@@ -133,7 +160,7 @@ int main(void)
         while (i < w)
         {
             if (i < w - 1)
-                draw_line(toIso_x(&c[j][i]) + start_x, toIso_y(&c[j][i]) + start_y, toIso_x(&c[j][i + 1]) + start_x, toIso_y(&c[j][i + 1]) + start_y, mlx_ptr, mlx_window, 0xFC3D03);
+                draw_line(toIso_x(&c[j][i]) + start_x, toIso_y(&c[j][i]) + start_y, toIso_x(&c[j][i + 1]) + start_x, toIso_y(&c[j][i + 1]) + start_y, mlx_ptr, mlx_window, 0xFFFFFF);
             mlx_pixel_put(mlx_ptr, mlx_window, toIso_x(&c[j][i]) + start_x, toIso_y(&c[j][i]) + start_y, 0xFFFFFF);
             i++;
         }
@@ -150,7 +177,7 @@ int main(void)
         while (j < h)
         {
             if (j < h - 1)
-                draw_line(toIso_x(&c[j][i]) + start_x, toIso_y(&c[j][i]) + start_y, toIso_x(&c[j + 1][i]) + start_x, toIso_y(&c[j + 1][i]) + start_y, mlx_ptr, mlx_window, 0x00C8FF);
+                draw_line(toIso_x(&c[j][i]) + start_x, toIso_y(&c[j][i]) + start_y, toIso_x(&c[j + 1][i]) + start_x, toIso_y(&c[j + 1][i]) + start_y, mlx_ptr, mlx_window, 0xFFFFF);
             j++;
         }
         j = 0;
@@ -161,7 +188,7 @@ int main(void)
     i = 0;
     j = 0;
     while (j < h)
-    {
+    {   
         while (i < w)
         {
             mlx_pixel_put(mlx_ptr, mlx_window, toIso_x(&c[j][i]) + start_x, toIso_y(&c[j][i]) + start_y, 0xFFFFFF);
@@ -172,6 +199,7 @@ int main(void)
         j++;
     }
 
+    mlx_hook(mlx_window, ButtonPress, ButtonPressMask, mymouse(gap_ptr), &mlx_ptr);
     mlx_loop(mlx_ptr);
     return (0);
 }
