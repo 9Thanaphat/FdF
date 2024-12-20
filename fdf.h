@@ -21,6 +21,7 @@ typedef struct{
 } t_vars;
 
 char	**ft_split(char const *s, char c);
+void	ft_put_to_array();
 void	draw_line(int x1, int y1, int x2, int y2, void *mlx, void *win, int color);
 float	toIso_x(t_cord* c);
 float	toIso_y(t_cord* c);

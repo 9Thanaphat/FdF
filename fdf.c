@@ -1,35 +1,8 @@
 #include "fdf.h"
 
-char *ft_trim_newline(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\n' && str[i] != '\0')
-		i++;
-	if (str[i] == '\n')
-		str[i] = 0;
-	return (str);
-}
-
 int main(void)
 {
-	int fd;
-
-	char *line;
-	int count;
-	count = 0;
-	fd = open("pyra.fdf", O_RDONLY);
-
-	if (fd < 0)
-		return 1;
-			while ((line = get_next_line(fd)) && count < 25) {
-				printf("line %d : %s", count++, ft_trim_newline(line));
-				free(line);
-		}
-		free(line);
-		close(fd);
-
+	
     int w = 20;
     int h = 20;
     int start_x = 900;
