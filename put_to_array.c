@@ -27,7 +27,6 @@ int	ft_atoi(const char *nptr)
 	}
 	return (num * neg);
 }
-
 char *ft_trim_newline(char *str)
 {
 	int	i;
@@ -36,65 +35,79 @@ char *ft_trim_newline(char *str)
 	while (str[i] != '\n' && str[i] != '\0')
 		i++;
 	if (str[i] == '\n')
-		str[i] = 0;
+		str[i] = ' ';
 	return (str);
 }
 
-int	**ft_put_to_array(int row, int col, int *array)
+void	test_print(int *array, int col)
 {
-	char *line;
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while ((line = get_next_line(fd))) {
-		line = ft_trim_newline(line);
-		char **ptr;
-		ptr = ft_split(line, ' ');
-		while (ptr[col] != NULL)
-			col++;
-		row++;
-		free(line);
-		close(fd);
-	}
-
-}
-
-int	**ft_allocate_array(int row, int col){
-	int	**array;
-	int	i;
-
-	i = 0;
-	array = malloc(row * sizeof(int*));
+	int	i = 0;
 	while (i < col)
 	{
-		array = malloc(col * sizeof(int));
+		printf("%d, ", array[i]);
 		i++;
 	}
-	return (array);
+	printf("\n");
 }
 
-int	**ft_get_map_size(){
-	int fd;
-	char *line;
-	char **ptr_to_splited_lines;
-	int	col;
-	int row;
+void	ft_put_to_int_array(char *line, int row, int col, t_grid *grid)
+{
+	char	**ptr;
+	int		i;
+	int		j;
 
-	col = 0;
-	row = 0;
-	fd = open("pyra.fdf", O_RDONLY);
-	while ((line = get_next_line(fd))) {
-		line = ft_trim_newline(line);
-		ptr_to_splited_lines = ft_split(line, ' ');
-		while (ptr_to_splited_lines[col] != NULL)
-			col++;
-		row++;
-		free(line);
+	j = 0;
+	grid->read_array = malloc(sizeof(int*) * row);
+	while (j < row)
+		grid->read_array[j++] = malloc(sizeof(int) * col);
+	ptr = ft_split(line, 32);
+	i = 0;
+	j = 0;
+	while (j < row)
+	{
+		while (i < col)
+			grid->read_array[j][i++] = ft_atoi(ptr[(j * col) + i]);
+		test_print(grid->read_array[j], col);
+		i = 0;
+		j++;
 	}
-	printf("counted : row : %d col : %d\n",row , col);
-	ft_allocate_array(row, col);
+	free(ptr);
 	free(line);
-	return (NULL);
-}	
+}
+
+void	ft_put_to_array(int fd, char *line, t_grid *grid){
+	int		row;
+	int		col;
+	char	*read;
+	char	**ptr;
+
+	row = 0;
+	col = 0;
+	while ((read = get_next_line(fd))) {
+		read = ft_trim_newline(read);
+		ptr = ft_split(read, 32);
+		while (ptr[col] != NULL)
+			col++;
+		if (!line)
+			line = calloc(1, 1);
+		line = ft_strjoin(line, read);
+		free(read);
+		free(ptr);
+		row++;
+	}
+	close(fd);
+	printf("row: %d col: %d \n", row, col);
+	grid->row = row;
+	grid->col = col;
+	
+	ft_put_to_int_array(line, row, col, grid);
+}
+
+void read_file(char *file_name, t_grid *grid)
+{
+	int		fd;
+	char	*line;
+
+	fd = open(file_name, O_RDONLY);
+	ft_put_to_array(fd, line, grid);
+}
