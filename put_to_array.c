@@ -5,13 +5,14 @@ int ft_atoi(const char *nptr) {
     while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13)) i++;
     if (nptr[i] == '-' || nptr[i] == '+') {
         if (nptr[i] == '-') neg = -1;
-        i++;
-    }
-    while (nptr[i] >= '0' && nptr[i] <= '9') {
-        num = (num * 10) + (nptr[i] - '0');
-        i++;
-    }
-    return num * neg;
+		i++;
+	}
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		num = (num * 10) + (nptr[i] - '0');
+		i++;
+	}
+	return num * neg;
 }
 
 char *ft_trim_newline(char *str) {
@@ -21,21 +22,38 @@ char *ft_trim_newline(char *str) {
 	return str;
 }
 
-void ft_put_to_int_array(char *line, int row, int col, t_grid *grid)
+void	test_print(char **ptr)
 {
-	char	**ptr; 
+	int i = 0;
+	while (ptr[i] != NULL)
+	{
+		printf("%s ", ptr[i]);
+		i++;
+	}
+	printf("\n");
+}
+
+void ft_put_to_int_array(char *line, t_grid *grid)
+{
+	char	**ptr;
 	int		i;
 	int		j;
 
 	ptr = ft_split(line, ' ');
-	if (!ptr) return;
+	if (!ptr)
+		return;
+	test_print(ptr);
+
 	i = 0;
 	j = 0;
-	grid->read_array = malloc(sizeof(int *) * row);
-	while (j < row){
-		grid->read_array[j] = malloc(sizeof(int) * col);
-		while (i < col) {
-			grid->read_array[j][i] = ft_atoi(ptr[j * col + i]);
+	grid->read_array = malloc(sizeof(int *) * grid->row);
+	while (j < grid->row){
+		grid->read_array[j] = malloc(sizeof(int) * grid->col);
+		while (i < grid->col) {
+			if (ptr[j * grid->col + i] != NULL)
+				grid->read_array[j][i] = ft_atoi(ptr[j * grid->col + i]);
+			else
+				grid->read_array[j][i] = 0;
 			i++;
 		}
 		i = 0;
@@ -69,14 +87,14 @@ void ft_put_to_array(int fd, t_grid *grid, char *line)
 	printf("row: %d col: %d\n", row, col);
 	grid->row = row;
 	grid->col = col;
-	ft_put_to_int_array(line, row, col, grid);
+	ft_put_to_int_array(line, grid);
 }
 
 void read_file(char *file_name, t_grid *grid) {
 	int fd;
 	char	*line;
 	char	*read;
-	
+
 	line = NULL;
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0) {
