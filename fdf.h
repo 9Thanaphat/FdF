@@ -8,11 +8,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
-
-typedef struct{
-	int	*mlx_ptr;
-	int	*mlx_window;
-} t_vars;
+# include <math.h>
 
 typedef struct{
 	int	row;
@@ -23,12 +19,18 @@ typedef struct{
 	int	**read_array;
 } t_grid;
 
+typedef struct{
+	int	*mlx_ptr;
+	int	*mlx_window;
+	t_grid *grid_ptr;
+} t_vars;
+
 char	**ft_split(char const *s, char c);
 void	draw_line(int x1, int y1, int x2, int y2, void *mlx, void *win, int color);
-float	toIso_x(t_grid grid, int x, int y);
-float	toIso_y(t_grid grid, int x, int y);
+float	toIso_x(t_grid *grid, int x, int y);
+float	toIso_y(t_grid *grid, int x, int y);
 void	read_file(char *file_name, t_grid *grid);
-void	draw_line_horizontal(t_grid grid, t_vars vars);
-void	draw_line_vertical(t_grid grid, t_vars vars);
+void	draw_line_horizontal(t_grid *grid, t_vars *vars);
+void	draw_line_vertical(t_grid *grid, t_vars *vars);
 
 #endif

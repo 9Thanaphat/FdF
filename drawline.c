@@ -17,52 +17,52 @@ void	draw_line(int x1, int y1, int x2, int y2, void *mlx, void *win, int color)
 	}
 }
 
-void	draw_line_horizontal(t_grid grid, t_vars vars)
+void	draw_line_horizontal(t_grid *grid, t_vars *vars)
 {
 	int	i;
 	int	j;
 
-
 	j = 0;
-	while (j < grid.row)
+	while (j < grid->row)
 	{
 		i = 0;
-		while (i < grid.col)
+		while (i < grid->col)
 		{
-			if (i < (grid.col - 1))
+			if (i < (grid->col - 1))
 				draw_line(
 				toIso_x(grid, i, j),
 				toIso_y(grid, i, j),
 				toIso_x(grid, i + 1, j),
 				toIso_y(grid, i + 1, j),
-				vars.mlx_ptr, vars.mlx_window, 0xFFFFFF);
+				vars->mlx_ptr, vars->mlx_window, 0xFFFFFF);
 			i++;
 		}
 		j++;
 	}
 }
 
-void	draw_line_vertical(t_grid grid, t_vars vars)
+void	draw_line_vertical(t_grid *grid, t_vars *vars)
 {
 	int	i;
 	int	j;
 
-
+	printf("drawline ver : %d\n", grid->tile_size);
 	i = 0;
-	while (i < grid.col)
+	while (i < grid->col)
 	{
 		j = 0;
-		while (j < grid.col)
+		while (j < grid->col)
 		{
-			if (j < (grid.row - 1))
+			if (j < (grid->row - 1))
 				draw_line(
 				toIso_x(grid, i, j),
 				toIso_y(grid, i, j),
 				toIso_x(grid, i, j + 1),
 				toIso_y(grid, i, j + 1),
-				vars.mlx_ptr, vars.mlx_window, 0xFF0000);
+				vars->mlx_ptr, vars->mlx_window, 0xFF0000);
 			j++;
 		}
 		i++;
 	}
 }
+
