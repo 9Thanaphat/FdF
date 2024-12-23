@@ -18,6 +18,6 @@ float toIso_y(t_grid *grid, int	i, int j)
 
 	x = (i  * grid->tile_size) + grid->start_x;
 	y = (j *grid->tile_size) + grid->start_y;
-	z =  grid->read_array[j][i] * (grid->tile_size);
+	z =  grid->read_array[j][i] * (grid->height);
 	return (((x + y) / 2) - z);
 }
