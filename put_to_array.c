@@ -27,22 +27,19 @@ int *ft_join_int_array(int *i1, int i2, int i1_size)
     int *join_int_array;
     int i;
 
-    // จัดสรรหน่วยความจำสำหรับอาร์เรย์ใหม่
-    join_int_array = malloc((i1_size + 1) * sizeof(int));
-    if (!join_int_array)
-        return (NULL); // คืนค่า NULL ถ้าการจัดสรรหน่วยความจำล้มเหลว
+	join_int_array = malloc((i1_size + 1) * sizeof(int));
+	if (!join_int_array)
+		return (NULL);
 
-    // คัดลอกค่าจาก i1 ไปยัง join_int_array
-    for (i = 0; i < i1_size; i++)
-        join_int_array[i] = i1[i];
-
-    // เพิ่มค่าใหม่ที่ตำแหน่งท้ายของอาร์เรย์
-    join_int_array[i] = i2;
-
-    // ลบหน่วยความจำของ i1
-    free(i1);
-
-    return (join_int_array);
+	i = 0;
+	while (i < i1_size)
+	{
+		join_int_array[i] = i1[i];
+		i++;
+	}
+	join_int_array[i] = i2;
+	free(i1);
+	return (join_int_array);
 }
 
 void ft_put_to_array(int fd, t_grid *grid)
@@ -51,7 +48,7 @@ void ft_put_to_array(int fd, t_grid *grid)
 	int		row;
 	int		col;
 	char	**ptr;
-	
+
 	row = 0;
 	while (read = get_next_line(fd))
 	{

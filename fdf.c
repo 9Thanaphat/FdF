@@ -80,9 +80,9 @@ int key_press(int keycode, t_vars *vars)
 	else if (keycode == 65366)
 		vars->grid_ptr->height -= 1;
 	else if (keycode == 61)
-		vars->grid_ptr->tile_size += 0.1;
+		vars->grid_ptr->tile_size += 1;
 	else if (keycode == 45)
-		vars->grid_ptr->tile_size -= 0.1;
+		vars->grid_ptr->tile_size -= 1;
 	my_clear_img(vars->img_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
 	draw_line_horizontal(vars->grid_ptr, vars, vars->img_ptr);
 	draw_line_vertical(vars->grid_ptr, vars, vars->img_ptr);
@@ -97,7 +97,7 @@ int main(int argc, char *argv)
 	t_vars	vars;
 	t_data	img;
 
-	read_file("MGDS_WHOLE_WORLD_OCEAN1_M.fdf", &grid);
+	read_file("100-6.fdf", &grid);
 	printf ("in main | row :%d col:%d\n", grid.row, grid.col);
 
 	int	x = 0;
