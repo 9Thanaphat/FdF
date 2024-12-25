@@ -22,64 +22,49 @@ char *ft_trim_newline(char *str) {
 	return str;
 }
 
-void	test_print(char **ptr)
+int *ft_join_int_array(int *i1, int i2, int i1_size)
 {
-	int i = 0;
-	while (ptr[i] != NULL)
-	{
-		printf("%s ", ptr[i]);
-		i++;
-	}
-	printf("\n");
+    int *join_int_array;
+    int i;
+
+    // จัดสรรหน่วยความจำสำหรับอาร์เรย์ใหม่
+    join_int_array = malloc((i1_size + 1) * sizeof(int));
+    if (!join_int_array)
+        return (NULL); // คืนค่า NULL ถ้าการจัดสรรหน่วยความจำล้มเหลว
+
+    // คัดลอกค่าจาก i1 ไปยัง join_int_array
+    for (i = 0; i < i1_size; i++)
+        join_int_array[i] = i1[i];
+
+    // เพิ่มค่าใหม่ที่ตำแหน่งท้ายของอาร์เรย์
+    join_int_array[i] = i2;
+
+    // ลบหน่วยความจำของ i1
+    free(i1);
+
+    return (join_int_array);
 }
 
-void ft_put_to_int_array(char *line, t_grid *grid)
-{
-	char	**ptr;
-	int		i;
-	int		j;
-
-	ptr = ft_split(line, ' ');
-	if (!ptr)
-		return;
-	test_print(ptr);
-
-	i = 0;
-	j = 0;
-	grid->read_array = malloc(sizeof(int *) * grid->row);
-	while (j < grid->row){
-		grid->read_array[j] = malloc(sizeof(int) * grid->col);
-		while (i < grid->col) {
-			if (ptr[j * grid->col + i] != NULL)
-				grid->read_array[j][i] = ft_atoi(ptr[j * grid->col + i]);
-			else
-				grid->read_array[j][i] = 0;
-			i++;
-		}
-		i = 0;
-		j++;
-	}
-	free(ptr);
-	free(line);
-}
-
-void ft_put_to_array(int fd, t_grid *grid, char *line)
+void ft_put_to_array(int fd, t_grid *grid)
 {
 	char	*read;
 	int		row;
 	int		col;
-
+	char	**ptr;
+	
 	row = 0;
-	col = 0;
-	line = calloc(1, 1);
-	while ((read = get_next_line(fd))) {
+	while (read = get_next_line(fd))
+	{
 		read = ft_trim_newline(read);
-		if (row == 0) {
-			char **ptr = ft_split(read, ' ');
-			while (ptr[col] != NULL) col++;
-			free(ptr);
-		}
-		line = ft_strjoin(line, read);
+		ptr = ft_split(read, ' ');
+		col = 0;
+			while (ptr[col] != NULL)
+			{
+				grid->array = ft_join_int_array(grid->array, ft_atoi(ptr[col]), grid->array_size);
+				grid->array_size++;
+				col++;
+			}
+		free(ptr);
 		free(read);
 		row++;
 	}
@@ -87,19 +72,18 @@ void ft_put_to_array(int fd, t_grid *grid, char *line)
 	printf("row: %d col: %d\n", row, col);
 	grid->row = row;
 	grid->col = col;
-	ft_put_to_int_array(line, grid);
 }
 
 void read_file(char *file_name, t_grid *grid) {
-	int fd;
-	char	*line;
+	int		fd;
 	char	*read;
 
-	line = NULL;
+	grid->array = NULL;
+	grid->array_size = 0;
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0) {
 		printf("Error opening file");
 		return;
 	}
-	ft_put_to_array(fd, grid, line);
+	ft_put_to_array(fd, grid);
 }

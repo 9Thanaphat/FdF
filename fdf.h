@@ -22,7 +22,8 @@ typedef struct{
 	int	start_y;
 	int	height;
 	int	tile_size;
-	int	**read_array;
+	int	*array;
+	int	array_size;
 } t_grid;
 
 typedef struct	s_data {

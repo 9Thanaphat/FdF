@@ -63,7 +63,7 @@ void	draw_line_horizontal(t_grid *grid, t_vars *vars, t_data *img)
 				toIso_y(grid, i, j),
 				toIso_x(grid, i + 1, j),
 				toIso_y(grid, i + 1, j),
-				vars->mlx_ptr, vars->mlx_window, 0x00FF0000, img);
+				vars->mlx_ptr, vars->mlx_window, 0x00FFFFFF, img);
 			i++;
 		}
 		j++;
@@ -87,7 +87,7 @@ void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img)
 				toIso_y(grid, i, j),
 				toIso_x(grid, i, j + 1),
 				toIso_y(grid, i, j + 1),
-				vars->mlx_ptr, vars->mlx_window, 0xFF0000, img);
+				vars->mlx_ptr, vars->mlx_window, 0x00FFFFFF, img);
 			j++;
 		}
 		i++;
