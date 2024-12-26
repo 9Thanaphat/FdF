@@ -1,20 +1,5 @@
 #include "fdf.h"
 
-int ft_atoi(const char *nptr) {
-    int i = 0, num = 0, neg = 1;
-    while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13)) i++;
-    if (nptr[i] == '-' || nptr[i] == '+') {
-        if (nptr[i] == '-') neg = -1;
-		i++;
-	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
-	{
-		num = (num * 10) + (nptr[i] - '0');
-		i++;
-	}
-	return num * neg;
-}
-
 char *ft_trim_newline(char *str) {
 	int i = 0;
 	while (str[i] != '\n' && str[i] != '\0') i++;
@@ -42,12 +27,21 @@ int *ft_join_int_array(int *i1, int i2, int i1_size)
 	return (join_int_array);
 }
 
+void get_min_max(t_grid *grid, int val)
+{
+	if (val < grid->min)
+		grid->min = val;
+	if (val > grid->max)
+		grid->max = val;
+}
+
 void ft_put_to_array(int fd, t_grid *grid)
 {
 	char	*read;
 	int		row;
 	int		col;
 	char	**ptr;
+	char	**ptr_to;
 
 	row = 0;
 	while (read = get_next_line(fd))
@@ -56,11 +50,22 @@ void ft_put_to_array(int fd, t_grid *grid)
 		ptr = ft_split(read, ' ');
 		col = 0;
 			while (ptr[col] != NULL)
-			{
-				grid->array = ft_join_int_array(grid->array, ft_atoi(ptr[col]), grid->array_size);
-				grid->array_size++;
-				col++;
-			}
+				if (ft_strchr(ptr[col], ','))
+				{
+					ptr_to = ft_split(ptr[col], ',');
+					grid->array = ft_join_int_array(grid->array, ft_atoi(ptr_to[0]), grid->array_size);
+					get_min_max(grid, ft_atoi(ptr_to[0]));
+					grid->array_size++;
+					col++;
+					free(ptr_to);
+				}
+				else
+				{
+					grid->array = ft_join_int_array(grid->array, ft_atoi(ptr[col]), grid->array_size);
+					get_min_max(grid, ft_atoi(ptr[col]));
+					grid->array_size++;
+					col++;
+				}
 		free(ptr);
 		free(read);
 		row++;
@@ -75,6 +80,8 @@ void read_file(char *file_name, t_grid *grid) {
 	int		fd;
 	char	*read;
 
+	grid->min = 0;
+	grid->max = 0;
 	grid->array = NULL;
 	grid->array_size = 0;
 	fd = open(file_name, O_RDONLY);

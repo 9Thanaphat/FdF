@@ -7,6 +7,7 @@
 #  define SCREEN_HEIGHT 1080
 # endif
 # include "mlx.h"
+# include "libft.h"
 # include "get_next_line.h"
 # include <string.h>
 # include <X11/X.h>
@@ -24,6 +25,9 @@ typedef struct{
 	int	tile_size;
 	int	*array;
 	int	array_size;
+	int *color;
+	int	min;
+	int	max;
 } t_grid;
 
 typedef struct	s_data {
@@ -42,7 +46,6 @@ typedef struct{
 } t_vars;
 
 
-char	**ft_split(char const *s, char c);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	draw_line(int x1, int y1, int x2, int y2, void *mlx, void *win, int color, t_data *img);
 void	my_clear_img(t_data *data, int w, int h);

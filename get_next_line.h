@@ -20,13 +20,13 @@
 # include <fcntl.h>
 # include <stdlib.h>
 
-char	*ft_strdup(const char *s);
-void	*ft_memset(void *s, int c, size_t n);
-void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t nmemb, size_t size);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strjoin(char const *s1, char const *s2);
-int		ft_strlen(const char *s);
+char	*ft_strdup_gnl(const char *s);
+void	*ft_memset_gnl(void *s, int c, size_t n);
+void	ft_bzero_gnl(void *s, size_t n);
+void	*ft_calloc_gnl(size_t nmemb, size_t size);
+char	*ft_strchr_gnl(const char *s, int c);
+char	*ft_strjoin_gnl(char const *s1, char const *s2);
+int		ft_strlen_gnl(const char *s);
 char	*get_next_line(int fd);
 
 #endif

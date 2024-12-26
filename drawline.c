@@ -75,11 +75,12 @@ void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img)
 	int	i;
 	int	j;
 
+
 	i = 0;
 	while (i < grid->col)
 	{
 		j = 0;
-		while (j < grid->col)
+		while (j < grid->row)
 		{
 			if (j < (grid->row - 1))
 				draw_line(
@@ -87,7 +88,7 @@ void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img)
 				toIso_y(grid, i, j),
 				toIso_x(grid, i, j + 1),
 				toIso_y(grid, i, j + 1),
-				vars->mlx_ptr, vars->mlx_window, 0x00FFFFFF, img);
+				vars->mlx_ptr, vars->mlx_window, 0x000000FF, img);
 			j++;
 		}
 		i++;

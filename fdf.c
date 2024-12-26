@@ -1,51 +1,21 @@
 #include "fdf.h"
 
-static size_t	ft_getdigits(long int n)
-{
-	unsigned int	i;
-
-	i = 0;
-	if (n == 0)
-		return (1);
-	if (n < 0)
-	{
-		n *= -1;
-		i++;
-	}
-	while (n > 0)
-	{
-		n /= 10;
-		i++;
-	}
-	return (i);
-}
-
-char	*ft_itoa(int n)
-{
-	int			di;
-	char		*strnum;
-	long int	num;
-
-	num = n;
-	di = ft_getdigits(n);
-	if (num < 0)
-		num *= -1;
-	strnum = (char *)malloc(sizeof(char) * (di + 1));
-	if (!strnum)
-		return (NULL);
-	*(strnum + di) = '\0';
-	while (di--)
-	{
-		*(strnum + di) = num % 10 + '0';
-		num /= 10;
-	}
-	if (n < 0)
-		strnum[0] = '-';
-	return (strnum);
-}
-
 void text_display(t_vars *vars)
 {
+	int	x;
+	int y;
+		
+	y = 0;
+	while (y < SCREEN_HEIGHT)
+	{
+		x = 0;
+		while (x < 200)
+		{
+			my_mlx_pixel_put(vars->img_ptr, x, y, 0x004389FA);
+			x++;
+		}
+		y++;
+	}
 	mlx_string_put(vars->mlx_ptr, vars->mlx_window, 25, 25, 0xFFFFFF, "Tile Size :");
 	mlx_string_put(vars->mlx_ptr, vars->mlx_window, 125, 25, 0xFFFFFF, ft_itoa(vars->grid_ptr->tile_size));
 	mlx_string_put(vars->mlx_ptr, vars->mlx_window, 25, 50, 0xFFFFFF, "Tile Height :");
@@ -54,7 +24,7 @@ void text_display(t_vars *vars)
 
 int key_press(int keycode, t_vars *vars)
 {
-	printf("Key pressed: %d\n", keycode);
+	//printf("Key pressed: %d\n", keycode);
 	if (keycode == 65362)
 	{
 		vars->grid_ptr->start_x -= 5;
@@ -97,17 +67,9 @@ int main(int argc, char *argv)
 	t_vars	vars;
 	t_data	img;
 
-	read_file("100-6.fdf", &grid);
+	read_file("maps/test_maps/t2.fdf", &grid);
 	printf ("in main | row :%d col:%d\n", grid.row, grid.col);
-
-	int	x = 0;
-	int	count = 1;
-	while (grid.array[x] >= 0)
-	{
-		x++;
-		count++;
-	}
-	printf("count : %d\n", count);
+	printf("min : %d max : %d\n", grid.min, grid.max);
 
 	grid.start_x = 0;
 	grid.start_y = 0;
@@ -127,6 +89,7 @@ int main(int argc, char *argv)
 
 	mlx_hook(vars.mlx_window, 2, 1L<<0, key_press, &vars);
 	mlx_put_image_to_window(vars.mlx_ptr, vars.mlx_window, img.img, 0, 0);
+	text_display(&vars);
 	mlx_loop(vars.mlx_ptr);
 	
 	return (0);
