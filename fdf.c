@@ -67,14 +67,14 @@ int main(int argc, char *argv)
 	t_vars	vars;
 	t_data	img;
 
-	read_file("maps/test_maps/t2.fdf", &grid);
+	read_file("maps/test_maps/42.fdf", &grid);
 	printf ("in main | row :%d col:%d\n", grid.row, grid.col);
 	printf("min : %d max : %d\n", grid.min, grid.max);
 
 	grid.start_x = 0;
 	grid.start_y = 0;
-	grid.tile_size = 10;
-	grid.height = 5;
+	grid.tile_size = 20;
+	grid.height = 8;
 
 	vars.mlx_ptr = mlx_init();
 	vars.mlx_window = mlx_new_window(vars.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "mywindow");
