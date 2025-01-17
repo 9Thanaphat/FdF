@@ -35,6 +35,17 @@ void get_min_max(t_grid *grid, int val)
 		grid->max = val;
 }
 
+void free_split(char **split) {
+    int i = 0;
+    if (!split)
+        return;
+    while (split[i]) {
+        free(split[i]);
+        i++;
+    }
+    free(split);
+}
+
 void ft_put_to_array(int fd, t_grid *grid)
 {
 	char	*read;
@@ -53,20 +64,20 @@ void ft_put_to_array(int fd, t_grid *grid)
 				if (ft_strchr(ptr[col], ','))
 				{
 					ptr_to = ft_split(ptr[col], ',');
-					grid->array = ft_join_int_array(grid->array, ft_atoi(ptr_to[0]), grid->array_size);
-					get_min_max(grid, ft_atoi(ptr_to[0]));
+					grid->array = ft_join_int_array(grid->array, atoi(ptr_to[0]), grid->array_size);
+					get_min_max(grid, atoi(ptr_to[0]));
 					grid->array_size++;
 					col++;
-					free(ptr_to);
+					free_split(ptr_to);
 				}
 				else
 				{
-					grid->array = ft_join_int_array(grid->array, ft_atoi(ptr[col]), grid->array_size);
-					get_min_max(grid, ft_atoi(ptr[col]));
+					grid->array = ft_join_int_array(grid->array, atoi(ptr[col]), grid->array_size);
+					get_min_max(grid, atoi(ptr[col]));
 					grid->array_size++;
 					col++;
 				}
-		free(ptr);
+		free_split(ptr);
 		free(read);
 		row++;
 	}

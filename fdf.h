@@ -17,12 +17,12 @@
 # include <math.h>
 
 typedef struct s_points{
-	float	x1;
-	float	y1;
-	float	x2;
-	float	y2;
-	float	z1;
-	float	z2;
+	int	iso_x1;
+	int	iso_y1;
+	int	iso_x2;
+	int	iso_y2;
+	int	z1;
+	int	z2;
 } t_points;
 
 typedef struct s_grid{
@@ -34,7 +34,6 @@ typedef struct s_grid{
 	int	tile_size;
 	int	*array;
 	int	array_size;
-	int *color;
 	int	min;
 	int	max;
 } t_grid;
@@ -48,8 +47,8 @@ typedef struct	s_data {
 }				t_data;
 
 typedef struct{
-	int		*mlx_ptr;
-	int		*mlx_window;
+	void	*mlx_ptr;
+	void	*mlx_window;
 	t_grid	*grid_ptr;
 	t_data	*img_ptr;
 } t_vars;
@@ -64,7 +63,8 @@ void	read_file(char *file_name, t_grid *grid);
 void	draw_line_horizontal(t_grid *grid, t_vars *vars, t_data *img);
 void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img);
 
-int		ft_abs(int num);
+
+int		ft_gradient(int start_color, int end_color, int steps, int i);
 float	ft_map(float value, float in_min, float in_max, float out_min, float out_max);
 
 #endif

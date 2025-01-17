@@ -1,26 +1,22 @@
 #include "fdf.h"
 
-void text_display(t_vars *vars)
-{
-	int	x;
-	int y;
-		
-	y = 0;
-	while (y < SCREEN_HEIGHT)
-	{
-		x = 0;
-		while (x < 200)
-		{
-			my_mlx_pixel_put(vars->img_ptr, x, y, 0x004389FA);
-			x++;
-		}
-		y++;
-	}
-	mlx_string_put(vars->mlx_ptr, vars->mlx_window, 25, 25, 0xFFFFFF, "Tile Size :");
-	mlx_string_put(vars->mlx_ptr, vars->mlx_window, 125, 25, 0xFFFFFF, ft_itoa(vars->grid_ptr->tile_size));
-	mlx_string_put(vars->mlx_ptr, vars->mlx_window, 25, 50, 0xFFFFFF, "Tile Height :");
-	mlx_string_put(vars->mlx_ptr, vars->mlx_window, 125, 50, 0xFFFFFF, ft_itoa(vars->grid_ptr->height));
+int close_window(t_vars *vars) {
+	printf("Close Window\n");
+	mlx_destroy_image(vars->mlx_ptr, vars->img_ptr->img);
+	mlx_destroy_window(vars->mlx_ptr, vars->mlx_window);
+	mlx_destroy_display(vars->mlx_ptr);
+	free(vars->grid_ptr->array);
+	exit(0);
+	return (0);
 }
+
+int redraw_window(t_vars *vars)
+{
+	draw_line_horizontal(vars->grid_ptr, vars, vars->img_ptr);
+	draw_line_vertical(vars->grid_ptr, vars, vars->img_ptr);
+	return (0);
+}
+
 
 int key_press(int keycode, t_vars *vars)
 {
@@ -57,7 +53,6 @@ int key_press(int keycode, t_vars *vars)
 	draw_line_horizontal(vars->grid_ptr, vars, vars->img_ptr);
 	draw_line_vertical(vars->grid_ptr, vars, vars->img_ptr);
 	mlx_put_image_to_window(vars->mlx_ptr, vars->mlx_window, vars->img_ptr->img, 0, 0);
-	text_display(vars);
 	return (0);
 }
 
@@ -88,8 +83,9 @@ int main(int argc, char *argv)
 	draw_line_vertical(&grid, &vars, &img);
 
 	mlx_hook(vars.mlx_window, 2, 1L<<0, key_press, &vars);
+
+	mlx_hook(vars.mlx_window, 17, 0, close_window, &vars);
 	mlx_put_image_to_window(vars.mlx_ptr, vars.mlx_window, img.img, 0, 0);
-	text_display(&vars);
 	mlx_loop(vars.mlx_ptr);
 	
 	return (0);
