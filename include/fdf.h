@@ -72,6 +72,7 @@ float	ft_map(float value, float in_min, float in_max, float out_min, float out_m
 char	*ft_trim_newline(char *str);
 void	free_split(char **split);
 
+int key_press(int keycode, t_vars *vars);
 int close_window(t_vars *vars);
 
 #endif
