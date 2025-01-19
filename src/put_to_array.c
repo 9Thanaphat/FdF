@@ -61,6 +61,8 @@ void ft_put_to_array(int fd, t_grid *grid)
 		ptr = ft_split(read, ' ');
 		col = 0;
 			while (ptr[col] != NULL)
+			{
+				printf("col:%d row:%d\n", col, row);
 				if (ft_strchr(ptr[col], ','))
 				{
 					ptr_to = ft_split(ptr[col], ',');
@@ -77,6 +79,7 @@ void ft_put_to_array(int fd, t_grid *grid)
 					grid->array_size++;
 					col++;
 				}
+			}	
 		free_split(ptr);
 		free(read);
 		row++;
@@ -95,6 +98,7 @@ void read_file(char *file_name, t_grid *grid) {
 	grid->max = 0;
 	grid->array = NULL;
 	grid->array_size = 0;
+	printf("name:%s\n", file_name);
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0) {
 		printf("Error opening file");

@@ -28,7 +28,7 @@ SRC			= fdf.c \
 OBJ 		= $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 $(NAME): $(OBJ) $(LIBFT) $(FT_PRINTF) $(GET_NEXT_LINE) $(MLX)
-	$(CC) $(CFLAGS) -I$(INCDIR) $(OBJ) $(LIBFT) $(FT_PRINTF) $(GET_NEXT_LINE) $(MLX) \
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(FT_PRINTF) $(GET_NEXT_LINE) $(MLX) \
 	-lX11 -lXext -lm -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
@@ -63,7 +63,7 @@ fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(FT_PRINTF_DIR) fclean
 	$(MAKE) -C $(GET_NEXT_LINE_DIR) fclean
-	$(MAKE) -C $(MLX_DIR) fclean
+	$(MAKE) -C $(MLX_DIR) clean
 
 re: fclean all
 

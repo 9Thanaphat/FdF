@@ -48,15 +48,23 @@ int key_press(int keycode, t_vars *vars)
 	return (0);
 }
 
-int main(int argc, char *argv)
+int main(int argc, char **argv)
 {
 	t_grid	grid;
 	t_vars	vars;
 	t_data	img;
 
-	read_file("maps/test_maps/mars.fdf", &grid);
-	printf ("in main | row :%d col:%d\n", grid.row, grid.col);
-	printf("min : %d max : %d\n", grid.min, grid.max);
+	if (argc == 2)
+		read_file(argv[1], &grid);
+	else
+	{
+		ft_printf("use ./fdf [file]\n");
+		return (0);
+	}
+		
+
+	ft_printf ("in main | row :%d col:%d\n", grid.row, grid.col);
+	ft_printf("min : %d max : %d\n", grid.min, grid.max);
 
 	grid.start_x = 0;
 	grid.start_y = 0;
@@ -64,7 +72,7 @@ int main(int argc, char *argv)
 	grid.height = 8;
 
 	vars.mlx_ptr = mlx_init();
-	vars.mlx_window = mlx_new_window(vars.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "mywindow");
+	vars.mlx_window = mlx_new_window(vars.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, argv[1]);
 	vars.grid_ptr = &grid;
 
 	img.img = mlx_new_image(vars.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
