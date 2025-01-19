@@ -21,6 +21,7 @@ AR			= ar rcs
 
 SRC			= fdf.c \
 			  put_to_array.c \
+			  control.c \
 			  toisometic.c \
 			  drawline.c \
 			  utils.c

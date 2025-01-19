@@ -1,15 +1,5 @@
 #include "fdf.h"
 
-int close_window(t_vars *vars) {
-	printf("Close Window\n");
-	mlx_destroy_image(vars->mlx_ptr, vars->img_ptr->img);
-	mlx_destroy_window(vars->mlx_ptr, vars->mlx_window);
-	mlx_destroy_display(vars->mlx_ptr);
-	free(vars->grid_ptr->array);
-	exit(0);
-	return (0);
-}
-
 int key_press(int keycode, t_vars *vars)
 {
 	//printf("Key pressed: %d\n", keycode);
@@ -61,31 +51,17 @@ int main(int argc, char **argv)
 		ft_printf("use ./fdf [file]\n");
 		return (0);
 	}
-		
-
-	ft_printf ("in main | row :%d col:%d\n", grid.row, grid.col);
-	ft_printf("min : %d max : %d\n", grid.min, grid.max);
-
-	grid.start_x = 0;
-	grid.start_y = 0;
-	grid.tile_size = 20;
-	grid.height = 8;
-
 	vars.mlx_ptr = mlx_init();
 	vars.mlx_window = mlx_new_window(vars.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, argv[1]);
 	vars.grid_ptr = &grid;
-
 	img.img = mlx_new_image(vars.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
 	vars.img_ptr = &img;
 	draw_line_horizontal(&grid, &vars, &img);
 	draw_line_vertical(&grid, &vars, &img);
-
 	mlx_hook(vars.mlx_window, 2, 1L<<0, key_press, &vars);
 	mlx_hook(vars.mlx_window, 17, 0, close_window, &vars);
 	mlx_put_image_to_window(vars.mlx_ptr, vars.mlx_window, img.img, 0, 0);
 	mlx_loop(vars.mlx_ptr);
-	
 	return (0);
 }

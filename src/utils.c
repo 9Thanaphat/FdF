@@ -1,14 +1,41 @@
 #include "fdf.h"
 
-int ft_gradient(int start_color, int end_color, int steps, int i)
+char	*ft_trim_newline(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\n' && str[i] != '\0')
+		i++;
+	if (str[i] == '\n')
+		str[i] = ' ';
+	return (str);
+}
+
+void	free_split(char **split)
+{
+	int i;
+
+	i = 0;
+	if (!split)
+		return ;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
+
+int ft_gradient(int color1, int color2, int steps, int i)
 {
 	int	r;
 	int	g;
 	int	b;
 
-	r = ((start_color >> 16) & 0xFF) + ((((end_color >> 16) & 0xFF) - ((start_color >> 16) & 0xFF)) * (i / (float)(steps - 1)));
-	g = ((start_color >> 8) & 0xFF) + ((((end_color >> 8) & 0xFF) - ((start_color >> 8) & 0xFF)) * (i / (float)(steps - 1)));
-	b = ((start_color & 0xFF) + (((end_color & 0xFF) - (start_color & 0xFF)) * (i / (float)(steps - 1))));
+	r = ((color1 >> 16) & 0xFF) + ((((color2 >> 16) & 0xFF) - ((color1 >> 16) & 0xFF)) * (i / (float)(steps - 1)));
+	g = ((color1 >> 8) & 0xFF) + ((((color2 >> 8) & 0xFF) - ((color2 >> 8) & 0xFF)) * (i / (float)(steps - 1)));
+	b = ((color1 & 0xFF) + (((color2 & 0xFF) - (color1 & 0xFF)) * (i / (float)(steps - 1))));
 	return (r << 16 | g << 8 | b);
 }
 

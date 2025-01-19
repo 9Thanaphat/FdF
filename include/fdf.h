@@ -17,16 +17,18 @@
 # include <unistd.h>
 # include <math.h>
 
-typedef struct s_points{
+typedef struct s_points
+{
 	int	iso_x1;
 	int	iso_y1;
 	int	iso_x2;
 	int	iso_y2;
 	int	z1;
 	int	z2;
-} t_points;
+}	t_points;
 
-typedef struct s_grid{
+typedef struct s_grid
+{
 	int	row;
 	int	col;
 	int	start_x;
@@ -37,22 +39,24 @@ typedef struct s_grid{
 	int	array_size;
 	int	min;
 	int	max;
-} t_grid;
+}	t_grid;
 
-typedef struct	s_data {
+typedef struct s_data
+{
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+}	t_data;
 
-typedef struct{
+typedef struct s_vars
+{
 	void	*mlx_ptr;
 	void	*mlx_window;
 	t_grid	*grid_ptr;
 	t_data	*img_ptr;
-} t_vars;
+}	t_vars;
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	draw_line(t_points *points, t_vars *vars);
@@ -65,5 +69,9 @@ void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img);
 
 int		ft_gradient(int start_color, int end_color, int steps, int i);
 float	ft_map(float value, float in_min, float in_max, float out_min, float out_max);
+char	*ft_trim_newline(char *str);
+void	free_split(char **split);
+
+int close_window(t_vars *vars);
 
 #endif
