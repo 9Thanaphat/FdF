@@ -1,0 +1,1 @@
+Libft is a static library that includes reimplementations of standard library functions and additional utility functions. The project is designed to improve your understanding of how library functions work internally while building a reusable toolkit for future C projects.
