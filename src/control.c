@@ -42,7 +42,7 @@ int key_press(int keycode, t_vars *vars)
 		vars->grid_ptr->tile_size += 1;
 	else if (keycode == 45)
 		vars->grid_ptr->tile_size -= 1;
-	my_clear_img(vars->img_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
+	my_clear_img(vars->img_ptr, WIDTH, HEIGHT);
 	draw_line_horizontal(vars->grid_ptr, vars, vars->img_ptr);
 	draw_line_vertical(vars->grid_ptr, vars, vars->img_ptr);
 	mlx_put_image_to_window(vars->mlx_ptr, vars->mlx_window, vars->img_ptr->img, 0, 0);

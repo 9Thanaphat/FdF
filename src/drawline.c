@@ -4,12 +4,11 @@
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
-	if (!data->addr || x < 0 || y < 0 || x >= SCREEN_WIDTH || y >= SCREEN_HEIGHT){
-		return;
-	}
 
+	if (!data->addr || x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
+		return ;
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }
 
 void	my_clear_img(t_data *data, int w, int h)
@@ -30,53 +29,57 @@ void	my_clear_img(t_data *data, int w, int h)
 	}
 }
 
-void draw_line(t_points *points, t_vars *vars)
+void	draw_line_draw(t_points *points, t_vars *vars, int e2, int total_steps)
 {
-	int dx = abs(points->iso_x2 - points->iso_x1);
-	int dy = abs(points->iso_y2 - points->iso_y1);
-	int dz = abs(points->z2 - points->z1);  // ความแตกต่างของ z
-	int sx;
-	int	sy;
-	int err = dx - dy;
-	int z = points->z1;
+	int	step;
 
-	if (points->iso_x1 < points->iso_x2)
-		sx = 1;
-	else
-		sx = -1;
-	if (points->iso_y1 < points->iso_y2) 
-		sy = 1;
-	else
-		sy = -1;
-
-	int total_steps = (dx > dy) ? dx : dy;
-	int step = 0;
-
-	while (1) {
-		// วาดจุดที่ (x1, y1)
+	step = 0;
+	while (1)
+	{
 		my_mlx_pixel_put(vars->img_ptr, points->iso_x1, points->iso_y1,
 		ft_gradient(0xFFFFFF, 0x7d2819, 256,
-		ft_map(z, vars->grid_ptr->min, vars->grid_ptr->max, 0, 255)));
-
-		// หากถึงจุดสิ้นสุดให้หยุด
-		if (points->iso_x1 == points->iso_x2 && points->iso_y1 == points->iso_y2)
+		ft_map(points->z, vars->grid_ptr->min, vars->grid_ptr->max, 0, 255)));
+		if (points->iso_x1 == points->iso_x2 && points->iso_y1 == points->iso_y2) // หากถึงจุดสิ้นสุดให้หยุด
 			break;
-		// อัปเดตค่าผิดพลาดและพิกัด
-		int e2 = err * 2;
-		if (e2 > -dy)
+		e2 = points->err * 2; // อัปเดตค่าผิดพลาดและพิกัด
+		if (e2 > -points->dy)
 		{
-			err -= dy;
-			points->iso_x1 += sx;
+			points->err -= points->dy;
+			points->iso_x1 += points->sx;
 		}
-		if (e2 < dx)
+		if (e2 < points->dx)
 		{
-			err += dx;
-			points->iso_y1 += sy;
+			points->err += points->dx;
+			points->iso_y1 += points->sy;
 		}
-		// อัปเดตค่า z ในแต่ละขั้น โดยการไล่จาก z1 ไป z2
-		z = points->z1 + ((points->z2 - points->z1) * step) / total_steps;
+		points->z = points->z1 + ((points->z2 - points->z1) * step) / total_steps; // อัปเดตค่า z ในแต่ละขั้น โดยการไล่จาก z1 ไป z2
 		step++;
 	}
+}
+
+void	draw_line(t_points *points, t_vars *vars)
+{
+	int	total_steps;
+	int	e2;
+
+	if (points->dx > points->dy)
+		total_steps = points->dx;
+	else
+		total_steps = points->dy;
+	points->dx = abs(points->iso_x2 - points->iso_x1);
+	points->dy = abs(points->iso_y2 - points->iso_y1);
+	points->dz = abs(points->z2 - points->z1);
+	points->err = points->dx - points->dy;
+	points->z = points->z1;
+	if (points->iso_x1 < points->iso_x2)
+		points->sx = 1;
+	else
+		points->sx = -1;
+	if (points->iso_y1 < points->iso_y2)
+		points->sy = 1;
+	else
+		points->sy = -1;
+	draw_line_draw(points, vars, e2, total_steps);
 }
 
 void	draw_line_horizontal(t_grid *grid, t_vars *vars, t_data *img)

@@ -1,10 +1,10 @@
 #ifndef FDF_H
 # define FDF_H
-# ifndef SCREEN_WIDTH 
-#  define SCREEN_WIDTH 1920
+# ifndef WIDTH
+#  define WIDTH 1920
 # endif
-# ifndef SCREEN_HEIGHT
-#  define SCREEN_HEIGHT 1080
+# ifndef HEIGHT
+#  define HEIGHT 1080
 # endif
 # include "mlx.h"
 # include "libft.h"
@@ -25,6 +25,14 @@ typedef struct s_points
 	int	iso_y2;
 	int	z1;
 	int	z2;
+
+	int dx;
+	int dy;
+	int dz;
+	int sx;
+	int	sy;
+	int err;
+	int z;
 }	t_points;
 
 typedef struct s_grid
@@ -63,7 +71,7 @@ void	draw_line(t_points *points, t_vars *vars);
 void	my_clear_img(t_data *data, int w, int h);
 int		toIso_x(t_grid *grid, int x, int y);
 int		toIso_y(t_grid *grid, int x, int y);
-void	read_file(char *file_name, t_grid *grid);
+int		read_file(char *file_name, t_grid *grid);
 void	draw_line_horizontal(t_grid *grid, t_vars *vars, t_data *img);
 void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img);
 

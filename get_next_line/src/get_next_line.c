@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thanaphat <thanaphat@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 23:30:48 by root              #+#    #+#             */
-/*   Updated: 2024/11/04 08:06:31 by thanaphat        ###   ########.fr       */
+/*   Updated: 2025/02/02 18:54:19 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,3 @@ char	*get_next_line(int fd)
 	buffer = ft_update_buffer(buffer);
 	return (line);
 }
-
