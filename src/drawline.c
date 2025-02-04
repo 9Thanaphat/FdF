@@ -100,8 +100,8 @@ void	draw_line_horizontal(t_grid *grid, t_vars *vars, t_data *img)
 				points.iso_y1 = toIso_y(grid, i, j);
 				points.iso_x2 = toIso_x(grid, i + 1, j);
 				points.iso_y2 = toIso_y(grid, i + 1, j);
-				points.z1 = grid->array[j * grid->col + i];
-				points.z2 = grid->array[j* grid->col + (i + 1)];
+				points.z1 = grid->array[j * grid->col + i]->height;
+				points.z2 = grid->array[j* grid->col + (i + 1)]->height;
 				draw_line(&points, vars);
 			}
 			i++;
@@ -128,8 +128,8 @@ void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img)
 				points.iso_y1 = toIso_y(grid, i, j);
 				points.iso_x2 = toIso_x(grid, i, j + 1);
 				points.iso_y2 = toIso_y(grid, i, j + 1);
-				points.z1 = grid->array[j * grid->col + i];
-				points.z2 = grid->array[(j + 1)* grid->col + i];
+				points.z1 = grid->array[j * grid->col + i]->height;
+				points.z2 = grid->array[(j + 1)* grid->col + i]->height;
 				draw_line(&points, vars);
 			}
 			j++;

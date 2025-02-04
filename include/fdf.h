@@ -17,6 +17,15 @@
 # include <unistd.h>
 # include <math.h>
 
+typedef struct s_list
+{
+	int				height;
+	int				color;
+	struct s_list	*next;
+	struct s_list	*prev;
+	struct s_list	*last;
+}	t_list;
+
 typedef struct s_points
 {
 	int	iso_x1;
@@ -43,7 +52,7 @@ typedef struct s_grid
 	int	start_y;
 	int	height;
 	int	tile_size;
-	int	*array;
+	t_list	**array;
 	int	array_size;
 	int	min;
 	int	max;
@@ -82,5 +91,9 @@ void	free_split(char **split);
 
 int key_press(int keycode, t_vars *vars);
 int close_window(t_vars *vars);
+
+t_list	*create_node(int height, int color);
+void	insert_node(t_list *head_node, int height, int color);
+void	array_to_node(t_grid *grid, t_list *node, int index);
 
 #endif

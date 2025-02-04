@@ -20,6 +20,7 @@ RM			= rm -f
 AR			= ar rcs
 
 SRC			= fdf.c \
+			  list.c \
 			  put_to_array.c \
 			  control.c \
 			  toisometic.c \
