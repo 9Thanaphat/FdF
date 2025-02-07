@@ -1,11 +1,5 @@
 #ifndef FDF_H
 # define FDF_H
-# ifndef WIDTH
-#  define WIDTH 1920
-# endif
-# ifndef HEIGHT
-#  define HEIGHT 1080
-# endif
 # include "mlx.h"
 # include "libft.h"
 # include "ft_printf.h"
@@ -17,9 +11,28 @@
 # include <unistd.h>
 # include <math.h>
 
+# define PI 3.141592653589793
+# define WIDTH 1920
+# define HEIGHT 1080
+# define ARROW_UP 65362
+# define ARROW_DOWN 65364
+# define ARROW_LEFT 65361
+# define ARROW_RIGHT 65363
+# define KEY_Q 113
+# define KEY_W 119
+# define KEY_A 97
+# define KEY_S 115
+# define KEY_Z 122
+# define KEY_X 120
+
 typedef struct s_list
 {
-	int				height;
+	double				x;
+	double				y;
+	double				z;
+	double				temp_x;
+	double				temp_y;
+	double				temp_z;
 	int				color;
 	struct s_list	*next;
 	struct s_list	*prev;
@@ -28,6 +41,9 @@ typedef struct s_list
 
 typedef struct s_points
 {
+	int	index_1;
+	int	index_2;
+
 	int	iso_x1;
 	int	iso_y1;
 	int	iso_x2;
@@ -46,6 +62,9 @@ typedef struct s_points
 
 typedef struct s_grid
 {
+	double	angle_x;
+	double	angle_y;
+	double	angle_z;
 	int	row;
 	int	col;
 	int	start_x;
@@ -53,7 +72,6 @@ typedef struct s_grid
 	int	height;
 	int	tile_size;
 	t_list	**array;
-	int	array_size;
 	int	min;
 	int	max;
 }	t_grid;
@@ -84,7 +102,7 @@ int		read_file(char *file_name, t_grid *grid);
 void	draw_line_horizontal(t_grid *grid, t_vars *vars, t_data *img);
 void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img);
 
-int		ft_gradient(int start_color, int end_color, int steps, int i);
+int 	ft_gradient(int color1, int color2, int percent);
 float	ft_map(float value, float in_min, float in_max, float out_min, float out_max);
 char	*ft_trim_newline(char *str);
 void	free_split(char **split);
@@ -95,5 +113,7 @@ int close_window(t_vars *vars);
 t_list	*create_node(int height, int color);
 void	insert_node(t_list *head_node, int height, int color);
 void	array_to_node(t_grid *grid, t_list *node, int index);
+
+void 	draw_edge(t_vars *vars);
 
 #endif

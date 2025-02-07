@@ -1,6 +1,48 @@
 #include "fdf.h"
 #include <math.h>
 
+void rotateX(t_list *node, double angle)
+{
+
+    double rad;
+    double cosA;
+    double sinA;
+
+	rad = angle * PI / 180.0;
+	cosA = cos(rad);
+	sinA = sin(rad);
+    node->y = node->y * cosA - node->z * sinA;  // y' = y cos(θ) - z sin(θ)
+    node->z = node->y * sinA + node->z * cosA;  // z' = y sin(θ) + z cos(θ)
+}
+
+void rotateY(t_list *node, double angle)
+{
+    double rad;
+    double cosA;
+    double sinA;
+
+	rad = angle * PI / 180.0;
+	cosA = cos(rad);
+	sinA = sin(rad);
+	node->x = node->x * cosA + node->z * sinA;  // x' = x cos(θ) + z sin(θ)
+	node->z = -node->x * sinA + node->z * cosA; // z' = -x sin(θ) + z cos(θ)
+}
+
+void rotateZ(t_list *node, double angle)
+{
+	double rad;
+	double cosA;
+	double sinA;
+
+	node->x = node->x;
+	node->z = node->z;
+	rad = angle * PI / 180.0;
+	cosA = cos(rad);
+	sinA = sin(rad);
+	node->x = node->x * cosA - node->y * sinA;  // x' = x cos(θ) - y sin(θ)
+	node->y = node->x * sinA + node->y * cosA;  // y' = x sin(θ) + y cos(θ)
+}
+
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
@@ -32,16 +74,26 @@ void	my_clear_img(t_data *data, int w, int h)
 void	draw_line_draw(t_points *points, t_vars *vars, int e2, int total_steps)
 {
 	int	step;
+	int	color_1;
+	int	color_2;
+	int percent;
 
+	color_1 = 0xff0000;
+	color_2 = 0x0000ff;
+	if (vars->grid_ptr->array[points->index_1]->color != 0)
+		color_1 = vars->grid_ptr->array[points->index_1]->color;
+	if (vars->grid_ptr->array[points->index_2]->color != 0)
+		color_2 = vars->grid_ptr->array[points->index_2]->color;
 	step = 0;
 	while (1)
 	{
-		my_mlx_pixel_put(vars->img_ptr, points->iso_x1, points->iso_y1,
-		ft_gradient(0xFFFFFF, 0x7d2819, 256,
-		ft_map(points->z, vars->grid_ptr->min, vars->grid_ptr->max, 0, 255)));
+		if (total_steps == 0) {
+			total_steps = 1;
+		}
+		my_mlx_pixel_put(vars->img_ptr, points->iso_x1, points->iso_y1, 0x00FF00);
 		if (points->iso_x1 == points->iso_x2 && points->iso_y1 == points->iso_y2) // หากถึงจุดสิ้นสุดให้หยุด
 			break;
-		e2 = points->err * 2; // อัปเดตค่าผิดพลาดและพิกัด
+		e2 = points->err * 2;
 		if (e2 > -points->dy)
 		{
 			points->err -= points->dy;
@@ -96,12 +148,14 @@ void	draw_line_horizontal(t_grid *grid, t_vars *vars, t_data *img)
 		{
 			if (i < (grid->col - 1))
 			{
-				points.iso_x1 = toIso_x(grid, i, j);
-				points.iso_y1 = toIso_y(grid, i, j);
-				points.iso_x2 = toIso_x(grid, i + 1, j);
-				points.iso_y2 = toIso_y(grid, i + 1, j);
-				points.z1 = grid->array[j * grid->col + i]->height;
-				points.z2 = grid->array[j* grid->col + (i + 1)]->height;
+				points.index_1 = j * grid->col + i;
+				points.index_2 = j * grid->col + i + 1;
+				points.iso_x1 = grid->array[j * grid->col + i]->x * 30 + grid->start_x;
+				points.iso_y1 = grid->array[j * grid->col + i]->y * 30 + grid->start_y;
+				points.iso_x2 = grid->array[j * grid->col + (i + 1)]->x * 30 + grid->start_x;
+				points.iso_y2 = grid->array[j * grid->col + (i + 1)]->y * 30 + grid->start_y;
+				points.z1 = grid->array[j * grid->col + i]->z;
+				points.z2 = grid->array[j* grid->col + (i + 1)]->z;
 				draw_line(&points, vars);
 			}
 			i++;
@@ -124,12 +178,14 @@ void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img)
 		{
 			if (j < (grid->row - 1))
 			{
-				points.iso_x1 = toIso_x(grid, i, j);
-				points.iso_y1 = toIso_y(grid, i, j);
-				points.iso_x2 = toIso_x(grid, i, j + 1);
-				points.iso_y2 = toIso_y(grid, i, j + 1);
-				points.z1 = grid->array[j * grid->col + i]->height;
-				points.z2 = grid->array[(j + 1)* grid->col + i]->height;
+				points.index_1 = j * grid->col + i;
+				points.index_2 = (j + 1) * grid->col + i;
+				points.iso_x1 = grid->array[j * grid->col + i]->x * 30 + grid->start_x;
+				points.iso_y1 = grid->array[j * grid->col + i]->y * 30 + grid->start_y;
+				points.iso_x2 = grid->array[(j + 1) * grid->col + i]->x * 30 + grid->start_x;
+				points.iso_y2 = grid->array[(j + 1) * grid->col + i]->y * 30 + grid->start_y;
+				points.z1 = grid->array[j * grid->col + i]->z;
+				points.z2 = grid->array[(j + 1) * grid->col + i]->z;
 				draw_line(&points, vars);
 			}
 			j++;
@@ -137,3 +193,27 @@ void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img)
 		i++;
 	}
 }
+
+void draw_edge(t_vars *vars)
+{
+    int i;
+    int j;
+
+    j = 0;
+    while (j < vars->grid_ptr->row)
+    {
+        i = 0;
+        while (i < vars->grid_ptr->col)
+        {
+            rotateX(vars->grid_ptr->array[j * vars->grid_ptr->col + i], vars->grid_ptr->angle_x);
+            rotateY(vars->grid_ptr->array[j * vars->grid_ptr->col + i], vars->grid_ptr->angle_y);
+            rotateZ(vars->grid_ptr->array[j * vars->grid_ptr->col + i], vars->grid_ptr->angle_z);
+            i++;
+        }
+        j++;
+    }
+}
+
+
+
+

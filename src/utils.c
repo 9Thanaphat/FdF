@@ -27,17 +27,18 @@ void	free_split(char **split)
 	free(split);
 }
 
-int ft_gradient(int color1, int color2, int steps, int i)
+int ft_gradient(int color1, int color2, int percent)
 {
-	int	r;
-	int	g;
-	int	b;
+	int r, g, b;
+	float ratio = percent / 100.0;
 
-	r = ((color1 >> 16) & 0xFF) + ((((color2 >> 16) & 0xFF) - ((color1 >> 16) & 0xFF)) * (i / (float)(steps - 1)));
-	g = ((color1 >> 8) & 0xFF) + ((((color2 >> 8) & 0xFF) - ((color2 >> 8) & 0xFF)) * (i / (float)(steps - 1)));
-	b = ((color1 & 0xFF) + (((color2 & 0xFF) - (color1 & 0xFF)) * (i / (float)(steps - 1))));
-	return (r << 16 | g << 8 | b);
+    r = ((color1 >> 16) & 0xFF) + ((((color2 >> 16) & 0xFF) - ((color1 >> 16) & 0xFF)) * ratio);
+    g = ((color1 >> 8) & 0xFF) + ((((color2 >> 8) & 0xFF) - ((color1 >> 8) & 0xFF)) * ratio);
+    b = ((color1 & 0xFF) + (((color2 & 0xFF) - (color1 & 0xFF)) * ratio));
+
+    return (r << 16 | g << 8 | b);
 }
+
 
 float ft_map(float value, float in_min, float in_max, float out_min, float out_max)
 {

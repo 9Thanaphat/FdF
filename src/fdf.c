@@ -28,10 +28,11 @@ int main(int argc, char **argv)
 	img.img = mlx_new_image(vars.mlx_ptr, WIDTH, HEIGHT);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
 	vars.img_ptr = &img;
+	draw_edge(&vars);
 	draw_line_horizontal(&grid, &vars, &img);
 	draw_line_vertical(&grid, &vars, &img);
 	mlx_hook(vars.mlx_window, 2, 1L<<0, key_press, &vars);
-	mlx_hook(vars.mlx_window, 17, 0, close_window, &vars);
+	// mlx_hook(vars.mlx_window, 17, 0, close_window, &vars);
 	mlx_put_image_to_window(vars.mlx_ptr, vars.mlx_window, img.img, 0, 0);
 	mlx_loop(vars.mlx_ptr);
 	return (0);
