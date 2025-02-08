@@ -14,6 +14,7 @@
 # define PI 3.141592653589793
 # define WIDTH 1920
 # define HEIGHT 1080
+# define ESC 65307
 # define ARROW_UP 65362
 # define ARROW_DOWN 65364
 # define ARROW_LEFT 65361
@@ -44,10 +45,10 @@ typedef struct s_points
 	int	index_1;
 	int	index_2;
 
-	int	iso_x1;
-	int	iso_y1;
-	int	iso_x2;
-	int	iso_y2;
+	float	iso_x1;
+	float	iso_y1;
+	float	iso_x2;
+	float	iso_y2;
 	int	z1;
 	int	z2;
 
@@ -62,9 +63,9 @@ typedef struct s_points
 
 typedef struct s_grid
 {
-	double	angle_x;
-	double	angle_y;
-	double	angle_z;
+	float	angle_x;
+	float	angle_y;
+	float	angle_z;
 	int	row;
 	int	col;
 	int	start_x;
@@ -99,6 +100,7 @@ void	my_clear_img(t_data *data, int w, int h);
 int		toIso_x(t_grid *grid, int x, int y);
 int		toIso_y(t_grid *grid, int x, int y);
 int		read_file(char *file_name, t_grid *grid);
+void	draw_grid_lines(t_grid *grid, t_vars *vars, t_data *img);
 void	draw_line_horizontal(t_grid *grid, t_vars *vars, t_data *img);
 void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img);
 

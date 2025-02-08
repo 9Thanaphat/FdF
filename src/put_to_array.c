@@ -10,8 +10,8 @@ void	get_min_max(t_grid *grid, int val)
 
 int chartonum(char c)
 {
-    if (c >= 'a' && c <= 'f')
-        return ((c - 'a') + 10);
+	if (c >= 'a' && c <= 'f')
+		return ((c - 'a') + 10);
 	else if (c >= 'A' && c <= 'F')
         return ((c - 'A') + 10);
     else if (c >= '0' && c <= '9')
@@ -137,7 +137,7 @@ int	read_file(char *file_name, t_grid *grid)
 	t_list 	*node;
 
 	node = NULL;
-	grid->angle_x = 0;
+	grid->angle_x = 10;
 	grid->angle_y = 0;
 	grid->angle_z = 0;
 	grid->col = 0;

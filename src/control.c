@@ -1,10 +1,19 @@
 #include "fdf.h"
 
-int close_window(t_vars *vars)
+int	close_window(t_vars *vars)
 {
+	int	i;
+
+	i = 0;
+	while (i < vars->grid_ptr->col * vars->grid_ptr->row)
+	{
+		free(vars->grid_ptr->array[i]);
+		i++;
+	}
 	mlx_destroy_image(vars->mlx_ptr, vars->img_ptr->img);
 	mlx_destroy_window(vars->mlx_ptr, vars->mlx_window);
 	mlx_destroy_display(vars->mlx_ptr);
+
 	free(vars->grid_ptr->array);
 	free(vars->mlx_ptr);
 	exit(0);
@@ -25,9 +34,6 @@ void	move_offset(int key, t_vars *vars)
 
 void	rotation(int key, t_vars *vars)
 {
-	vars->grid_ptr->angle_x = 0;
-	vars->grid_ptr->angle_y = 0;
-	vars->grid_ptr->angle_z = 0;
 	if (key == KEY_Q)
 		vars->grid_ptr->angle_x += 1;
 	if (key == KEY_W)
@@ -40,7 +46,6 @@ void	rotation(int key, t_vars *vars)
 		vars->grid_ptr->angle_z += 1;
 	if (key == KEY_X)
 		vars->grid_ptr->angle_z -= 1;
-	draw_edge(vars);
 }
 
 int	key_press(int key, t_vars *vars)
@@ -50,6 +55,8 @@ int	key_press(int key, t_vars *vars)
 		move_offset(key, vars);
 	if (key == KEY_Q || key == KEY_W || key == KEY_A || key == KEY_S || key == KEY_Z || key == KEY_X)
 		rotation(key, vars);
+	if (key == ESC)
+		close_window(vars);
 	my_clear_img(vars->img_ptr, WIDTH, HEIGHT);
 	draw_line_horizontal(vars->grid_ptr, vars, vars->img_ptr);
 	draw_line_vertical(vars->grid_ptr, vars, vars->img_ptr);

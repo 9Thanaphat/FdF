@@ -1,52 +1,38 @@
 #include "fdf.h"
 #include <math.h>
 
-void rotateX(t_list *node, double angle)
+void rotate(t_list *node, t_grid *grid, float *sx, float *sy)
 {
+    float x, y, z;
 
-    double rad;
-    double cosA;
-    double sinA;
+    // ใช้ค่าต้นฉบับของจุด
+    x = node->x;
+    y = node->y;
+    z = node->z;
 
-	rad = angle * PI / 180.0;
-	cosA = cos(rad);
-	sinA = sin(rad);
-    node->y = node->y * cosA - node->z * sinA;  // y' = y cos(θ) - z sin(θ)
-    node->z = node->y * sinA + node->z * cosA;  // z' = y sin(θ) + z cos(θ)
-}
+    float new_y = y * cos(grid->angle_x * PI / 180) - z * sin(grid->angle_x * PI / 180);
+    float new_z = y * sin(grid->angle_x * PI / 180) + z * cos(grid->angle_x * PI / 180);
+    y = new_y;
+    z = new_z;
 
-void rotateY(t_list *node, double angle)
-{
-    double rad;
-    double cosA;
-    double sinA;
+    float new_x = x * cos(grid->angle_y * PI / 180) + z * sin(grid->angle_y * PI / 180);
+    new_z = -x * sin(grid->angle_y * PI / 180) + z * cos(grid->angle_y * PI / 180);
+    x = new_x;
+    z = new_z;
 
-	rad = angle * PI / 180.0;
-	cosA = cos(rad);
-	sinA = sin(rad);
-	node->x = node->x * cosA + node->z * sinA;  // x' = x cos(θ) + z sin(θ)
-	node->z = -node->x * sinA + node->z * cosA; // z' = -x sin(θ) + z cos(θ)
-}
+    new_x = x * cos(grid->angle_z * PI / 180) - y * sin(grid->angle_z * PI / 180) ;
+    new_y = x * sin(grid->angle_z * PI / 180)  + y * cos(grid->angle_z * PI / 180) ;
+    x = new_x;
+    y = new_y;
 
-void rotateZ(t_list *node, double angle)
-{
-	double rad;
-	double cosA;
-	double sinA;
+    *sx = round((x * 10) + grid->start_x);
+    *sy = round((y * 10) + grid->start_y);
 
-	node->x = node->x;
-	node->z = node->z;
-	rad = angle * PI / 180.0;
-	cosA = cos(rad);
-	sinA = sin(rad);
-	node->x = node->x * cosA - node->y * sinA;  // x' = x cos(θ) - y sin(θ)
-	node->y = node->x * sinA + node->y * cosA;  // y' = x sin(θ) + y cos(θ)
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
-
 	if (!data->addr || x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
 		return ;
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
@@ -78,8 +64,8 @@ void	draw_line_draw(t_points *points, t_vars *vars, int e2, int total_steps)
 	int	color_2;
 	int percent;
 
-	color_1 = 0xff0000;
-	color_2 = 0x0000ff;
+	color_1 = 0xFF0000;
+	color_2 = 0xFF00ff;
 	if (vars->grid_ptr->array[points->index_1]->color != 0)
 		color_1 = vars->grid_ptr->array[points->index_1]->color;
 	if (vars->grid_ptr->array[points->index_2]->color != 0)
@@ -93,6 +79,7 @@ void	draw_line_draw(t_points *points, t_vars *vars, int e2, int total_steps)
 		my_mlx_pixel_put(vars->img_ptr, points->iso_x1, points->iso_y1, 0x00FF00);
 		if (points->iso_x1 == points->iso_x2 && points->iso_y1 == points->iso_y2) // หากถึงจุดสิ้นสุดให้หยุด
 			break;
+
 		e2 = points->err * 2;
 		if (e2 > -points->dy)
 		{
@@ -148,12 +135,10 @@ void	draw_line_horizontal(t_grid *grid, t_vars *vars, t_data *img)
 		{
 			if (i < (grid->col - 1))
 			{
+				rotate(grid->array[j * grid->col + i], grid, &points.iso_x1, &points.iso_y1);
+				rotate(grid->array[j * grid->col + (i + 1)], grid, &points.iso_x2, &points.iso_y2);
 				points.index_1 = j * grid->col + i;
 				points.index_2 = j * grid->col + i + 1;
-				points.iso_x1 = grid->array[j * grid->col + i]->x * 30 + grid->start_x;
-				points.iso_y1 = grid->array[j * grid->col + i]->y * 30 + grid->start_y;
-				points.iso_x2 = grid->array[j * grid->col + (i + 1)]->x * 30 + grid->start_x;
-				points.iso_y2 = grid->array[j * grid->col + (i + 1)]->y * 30 + grid->start_y;
 				points.z1 = grid->array[j * grid->col + i]->z;
 				points.z2 = grid->array[j* grid->col + (i + 1)]->z;
 				draw_line(&points, vars);
@@ -167,8 +152,8 @@ void	draw_line_horizontal(t_grid *grid, t_vars *vars, t_data *img)
 void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img)
 {
 	t_points	points;
-	int	i;
-	int	j;
+	int			i;
+	int			j;
 
 	i = 0;
 	while (i < grid->col)
@@ -178,12 +163,10 @@ void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img)
 		{
 			if (j < (grid->row - 1))
 			{
+				rotate(grid->array[j * grid->col + i], grid, &points.iso_x1, &points.iso_y1);
+				rotate(grid->array[(j + 1) * grid->col + i], grid, &points.iso_x2, &points.iso_y2);
 				points.index_1 = j * grid->col + i;
 				points.index_2 = (j + 1) * grid->col + i;
-				points.iso_x1 = grid->array[j * grid->col + i]->x * 30 + grid->start_x;
-				points.iso_y1 = grid->array[j * grid->col + i]->y * 30 + grid->start_y;
-				points.iso_x2 = grid->array[(j + 1) * grid->col + i]->x * 30 + grid->start_x;
-				points.iso_y2 = grid->array[(j + 1) * grid->col + i]->y * 30 + grid->start_y;
 				points.z1 = grid->array[j * grid->col + i]->z;
 				points.z2 = grid->array[(j + 1) * grid->col + i]->z;
 				draw_line(&points, vars);
@@ -193,27 +176,3 @@ void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img)
 		i++;
 	}
 }
-
-void draw_edge(t_vars *vars)
-{
-    int i;
-    int j;
-
-    j = 0;
-    while (j < vars->grid_ptr->row)
-    {
-        i = 0;
-        while (i < vars->grid_ptr->col)
-        {
-            rotateX(vars->grid_ptr->array[j * vars->grid_ptr->col + i], vars->grid_ptr->angle_x);
-            rotateY(vars->grid_ptr->array[j * vars->grid_ptr->col + i], vars->grid_ptr->angle_y);
-            rotateZ(vars->grid_ptr->array[j * vars->grid_ptr->col + i], vars->grid_ptr->angle_z);
-            i++;
-        }
-        j++;
-    }
-}
-
-
-
-
