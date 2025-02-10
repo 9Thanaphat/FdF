@@ -21,11 +21,14 @@ AR			= ar rcs
 
 SRC			= fdf.c \
 			  list.c \
-			  put_to_array.c \
+			  readfile.c \
 			  control.c \
-			  toisometic.c \
+			  rotate.c \
 			  drawline.c \
-			  utils.c
+			  color.c \
+			  text_display.c \
+			  readfile_utils.c \
+			  utils.c \
 
 OBJ 		= $(SRC:%.c=$(OBJ_DIR)/%.o)
 

@@ -4,5 +4,10 @@
 		"mlx.h": "c",
 		"get_next_line.h": "c",
 		"string.h": "c"
-	}
+	},
+	"files.trimTrailingWhitespace": true,
+	"editor.insertSpaces": false,
+	"files.insertFinalNewline": true,
+	"notebook.insertFinalNewline": true,
+	"editor.detectIndentation": false
 }

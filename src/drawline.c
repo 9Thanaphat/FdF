@@ -1,38 +1,9 @@
 #include "fdf.h"
-#include <math.h>
-
-void rotate(t_list *node, t_grid *grid, float *sx, float *sy)
-{
-    float x, y, z;
-
-    // ใช้ค่าต้นฉบับของจุด
-    x = node->x;
-    y = node->y;
-    z = node->z;
-
-    float new_y = y * cos(grid->angle_x * PI / 180) - z * sin(grid->angle_x * PI / 180);
-    float new_z = y * sin(grid->angle_x * PI / 180) + z * cos(grid->angle_x * PI / 180);
-    y = new_y;
-    z = new_z;
-
-    float new_x = x * cos(grid->angle_y * PI / 180) + z * sin(grid->angle_y * PI / 180);
-    new_z = -x * sin(grid->angle_y * PI / 180) + z * cos(grid->angle_y * PI / 180);
-    x = new_x;
-    z = new_z;
-
-    new_x = x * cos(grid->angle_z * PI / 180) - y * sin(grid->angle_z * PI / 180) ;
-    new_y = x * sin(grid->angle_z * PI / 180)  + y * cos(grid->angle_z * PI / 180) ;
-    x = new_x;
-    y = new_y;
-
-    *sx = round((x * 10) + grid->start_x);
-    *sy = round((y * 10) + grid->start_y);
-
-}
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
+
 	if (!data->addr || x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
 		return ;
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
@@ -57,91 +28,88 @@ void	my_clear_img(t_data *data, int w, int h)
 	}
 }
 
-void	draw_line_draw(t_points *points, t_vars *vars, int e2, int total_steps)
+void	check_color(t_vars *vars, t_points *points, int *color1, int *color2)
 {
-	int	step;
-	int	color_1;
-	int	color_2;
-	int percent;
+	*color1 = 0xFFFF00;
+	*color2 = 0xFF00FF;
+	if (vars->env->array[points->index_1]->color != 0)
+		*color1 = vars->env->array[points->index_1]->color;
+	if (vars->env->array[points->index_2]->color != 0)
+		*color2 = vars->env->array[points->index_2]->color;
+}
 
-	color_1 = 0xFF0000;
-	color_2 = 0xFF00ff;
-	if (vars->grid_ptr->array[points->index_1]->color != 0)
-		color_1 = vars->grid_ptr->array[points->index_1]->color;
-	if (vars->grid_ptr->array[points->index_2]->color != 0)
-		color_2 = vars->grid_ptr->array[points->index_2]->color;
+void	drawline(t_vars *vars, t_points *p)
+{
+	int		step;
+	float	z_curr;
+	int		color1;
+	int		color2;
+
 	step = 0;
+	check_color(vars, p, &color1, &color2);
 	while (1)
 	{
-		if (total_steps == 0) {
-			total_steps = 1;
-		}
-		my_mlx_pixel_put(vars->img_ptr, points->iso_x1, points->iso_y1, 0x00FF00);
-		if (points->iso_x1 == points->iso_x2 && points->iso_y1 == points->iso_y2) // หากถึงจุดสิ้นสุดให้หยุด
-			break;
-
-		e2 = points->err * 2;
-		if (e2 > -points->dy)
+		z_curr = p->z1 + (p->z2 - p->z1) * ((float)step / p->total_steps);
+		my_mlx_pixel_put(vars->img_ptr, p->x1, p->y1, ft_gradient(color1, color2,
+			ft_map(z_curr, vars->env->min, vars->env->max)));
+		if (p->x1 == p->x2 && p->y1 == p->y2)
+			break ;
+			p->e2 = 2 * p->err;
+		if (p->e2 > -p->dy)
 		{
-			points->err -= points->dy;
-			points->iso_x1 += points->sx;
+			p->err -= p->dy;
+			p->x1 += p->sx;
 		}
-		if (e2 < points->dx)
+		if (p->e2 < p->dx)
 		{
-			points->err += points->dx;
-			points->iso_y1 += points->sy;
+			p->err += p->dx;
+			p->y1 += p->sy;
 		}
-		points->z = points->z1 + ((points->z2 - points->z1) * step) / total_steps; // อัปเดตค่า z ในแต่ละขั้น โดยการไล่จาก z1 ไป z2
 		step++;
 	}
 }
 
-void	draw_line(t_points *points, t_vars *vars)
+void	set_drawline_params(t_vars *vars, t_points *p)
 {
-	int	total_steps;
-	int	e2;
-
-	if (points->dx > points->dy)
-		total_steps = points->dx;
+	if (p->x1 < p->x2)
+	p->sx = 1;
 	else
-		total_steps = points->dy;
-	points->dx = abs(points->iso_x2 - points->iso_x1);
-	points->dy = abs(points->iso_y2 - points->iso_y1);
-	points->dz = abs(points->z2 - points->z1);
-	points->err = points->dx - points->dy;
-	points->z = points->z1;
-	if (points->iso_x1 < points->iso_x2)
-		points->sx = 1;
+		p->sx = -1;
+	if (p->y1 < p->y2)
+		p->sy = 1;
 	else
-		points->sx = -1;
-	if (points->iso_y1 < points->iso_y2)
-		points->sy = 1;
+		p->sy = -1;
+		p->dx = abs(p->x2 - p->x1);
+		p->dy = abs(p->y2 - p->y1);
+		p->err = p->dx - p->dy;
+	if (p->dx > p->dy)
+		p->total_steps = p->dx;
 	else
-		points->sy = -1;
-	draw_line_draw(points, vars, e2, total_steps);
+		p->total_steps = p->dy;
+	drawline(vars, p);
 }
 
-void	draw_line_horizontal(t_grid *grid, t_vars *vars, t_data *img)
+void	draw_line_horizontal(t_env *env, t_vars *vars, t_data *img)
 {
-	t_points	points;
+	t_points	p;
 	int			i;
 	int			j;
 
 	j = 0;
-	while (j < grid->row)
+	while (j < env->row)
 	{
 		i = 0;
-		while (i < grid->col)
+		while (i < env->col)
 		{
-			if (i < (grid->col - 1))
+			if (i < (env->col - 1))
 			{
-				rotate(grid->array[j * grid->col + i], grid, &points.iso_x1, &points.iso_y1);
-				rotate(grid->array[j * grid->col + (i + 1)], grid, &points.iso_x2, &points.iso_y2);
-				points.index_1 = j * grid->col + i;
-				points.index_2 = j * grid->col + i + 1;
-				points.z1 = grid->array[j * grid->col + i]->z;
-				points.z2 = grid->array[j* grid->col + (i + 1)]->z;
-				draw_line(&points, vars);
+				rotate(env->array[j * env->col + i], env, &p.x1, &p.y1);
+				rotate(env->array[j * env->col + (i + 1)], env, &p.x2, &p.y2);
+				p.index_1 = j * env->col + i;
+				p.index_2 = j * env->col + (i + 1);
+				p.z1 = env->array[j * env->col + i]->z;
+				p.z2 = env->array[j * env->col + (i + 1)]->z;
+				set_drawline_params(vars, &p);
 			}
 			i++;
 		}
@@ -149,27 +117,27 @@ void	draw_line_horizontal(t_grid *grid, t_vars *vars, t_data *img)
 	}
 }
 
-void	draw_line_vertical(t_grid *grid, t_vars *vars, t_data *img)
+void	draw_line_vertical(t_env *env, t_vars *vars, t_data *img)
 {
-	t_points	points;
+	t_points	p;
 	int			i;
 	int			j;
 
 	i = 0;
-	while (i < grid->col)
+	while (i < env->col)
 	{
 		j = 0;
-		while (j < grid->row)
+		while (j < env->row)
 		{
-			if (j < (grid->row - 1))
+			if (j < (env->row - 1))
 			{
-				rotate(grid->array[j * grid->col + i], grid, &points.iso_x1, &points.iso_y1);
-				rotate(grid->array[(j + 1) * grid->col + i], grid, &points.iso_x2, &points.iso_y2);
-				points.index_1 = j * grid->col + i;
-				points.index_2 = (j + 1) * grid->col + i;
-				points.z1 = grid->array[j * grid->col + i]->z;
-				points.z2 = grid->array[(j + 1) * grid->col + i]->z;
-				draw_line(&points, vars);
+				rotate(env->array[j * env->col + i], env, &p.x1, &p.y1);
+				rotate(env->array[(j + 1) * env->col + i], env, &p.x2, &p.y2);
+				p.index_1 = j * env->col + i;
+				p.index_2 = (j + 1) * env->col + i;
+				p.z1 = env->array[j * env->col + i]->z;
+				p.z2 = env->array[(j + 1) * env->col + i]->z;
+				set_drawline_params(vars, &p);
 			}
 			j++;
 		}
