@@ -95,7 +95,6 @@ void	change_projection(int key, t_vars *vars)
 
 int	key_press(int key, t_vars *vars)
 {
-	printf("Key pressed: %d\n", key);
 	if (key == ARROW_UP || key == ARROW_DOWN || key == ARROW_LEFT || key == ARROW_RIGHT)
 		move_offset(key, vars);
 	if (key == KEY_Q || key == KEY_W || key == KEY_A|| key == KEY_S

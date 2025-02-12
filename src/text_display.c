@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-void	text_display_value(t_vars *vars, void *mlx, void *win, int c)
+void	text_display_value_extend(t_vars *vars, void *mlx, void *win, int c)
 {
 	int		x;
 	char	*str;
@@ -8,11 +8,6 @@ void	text_display_value(t_vars *vars, void *mlx, void *win, int c)
 	x = 208;
 	if (vars->env->env_ui)
 	{
-		mlx_string_put(mlx, win, 100, x += 16, c, ft_itoa(vars->env->offset_x));
-		mlx_string_put(mlx, win, 100, x += 16, c, ft_itoa(vars->env->offset_y));
-		mlx_string_put(mlx, win, 100, x += 16, c, ft_itoa(vars->env->a_x));
-		mlx_string_put(mlx, win, 100, x += 16, c, ft_itoa(vars->env->a_y));
-		mlx_string_put(mlx, win, 100, x += 16, c, ft_itoa(vars->env->a_z));
 		if (vars->env->z_factor_select == 0)
 			mlx_string_put(mlx, win, 100, x += 16, c, "0.00");
 		else if (vars->env->z_factor_select == 1)
@@ -23,8 +18,37 @@ void	text_display_value(t_vars *vars, void *mlx, void *win, int c)
 			mlx_string_put(mlx, win, 100, x += 16, c, "0.75");
 		else if (vars->env->z_factor_select == 4)
 			mlx_string_put(mlx, win, 100, x += 16, c, "1.00");
+		str = ft_itoa(vars->env->cell_size);
 		mlx_string_put(mlx, win, 100, x += 16, c,
-			ft_itoa(vars->env->cell_size));
+			str);
+		free(str);
+	}
+}
+
+void	text_display_value(t_vars *vars, void *mlx, void *win, int c)
+{
+	int		x;
+	char	*str;
+
+	x = 208;
+	if (vars->env->env_ui)
+	{
+		str = ft_itoa(vars->env->offset_x);
+		mlx_string_put(mlx, win, 100, x += 16, c, str);
+		free(str);
+		str = ft_itoa(vars->env->offset_y);
+		mlx_string_put(mlx, win, 100, x += 16, c, str);
+		free(str);
+		str = ft_itoa(vars->env->a_x);
+		mlx_string_put(mlx, win, 100, x += 16, c, str);
+		free(str);
+		str = ft_itoa(vars->env->a_y);
+		mlx_string_put(mlx, win, 100, x += 16, c, str);
+		free(str);
+		str = ft_itoa(vars->env->a_z);
+		mlx_string_put(mlx, win, 100, x += 16, c, str);
+		free(str);
+		text_display_value_extend(vars, mlx, win, c);
 	}
 }
 

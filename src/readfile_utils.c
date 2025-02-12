@@ -17,11 +17,13 @@ void	set_env(t_env *env)
 	env->row = 0;
 	env->offset_x = 0;
 	env->offset_y = 0;
-	env->cell_size = 5;
+	env->cell_size = 25;
 	env->z_factor = 0.25;
 	env->z_factor_select = 1;
 	env->min = 0;
 	env->max = 0;
+	env->color1 = 0xFF0000;
+	env->color2 = 0x0000FF;
 	env->array = NULL;
 	env->env_ui = 1;
 }

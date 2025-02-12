@@ -36,3 +36,15 @@ int	to_rgb(char *s)
 	}
 	return (r << 16 | g << 8 | b);
 }
+
+int ft_gradient(int color1, int color2, int percent)
+{
+	int	r;
+	int	g;
+	int	b;
+
+	r = ((color1 >> 16) & 0xFF) + ((((color2 >> 16) & 0xFF) - ((color1 >> 16) & 0xFF)) * percent / 100);
+	g = ((color1 >> 8) & 0xFF) + ((((color2 >> 8) & 0xFF) - ((color1 >> 8) & 0xFF)) * percent / 100);
+	b = ((color1 & 0xFF) + (((color2 & 0xFF) - (color1 & 0xFF)) * percent / 100));
+	return (r << 16 | g << 8 | b);
+}

@@ -1,8 +1,36 @@
 #include "fdf.h"
 
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	if (!data->addr || x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
+		return ;
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
+
+void	my_clear_img(t_data *data, int w, int h)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	while (j < h)
+	{
+		i = 0;
+		while (i < w)
+		{
+			my_mlx_pixel_put(data, i, j, 0x00000000);
+			i++;
+		}
+		j++;
+	}
+}
+
 char	*ft_trim_newline(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] != '\n' && str[i] != '\0')
@@ -14,7 +42,7 @@ char	*ft_trim_newline(char *str)
 
 void	free_split(char **split)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!split)
@@ -27,20 +55,7 @@ void	free_split(char **split)
 	free(split);
 }
 
-int ft_gradient(int color1, int color2, int percent)
+float	ft_map(float value, float in_min, float in_max)
 {
-	int r, g, b;
-	float ratio = percent / 100.0;
-
-	r = ((color1 >> 16) & 0xFF) + ((((color2 >> 16) & 0xFF) - ((color1 >> 16) & 0xFF)) * ratio);
-	g = ((color1 >> 8) & 0xFF) + ((((color2 >> 8) & 0xFF) - ((color1 >> 8) & 0xFF)) * ratio);
-	b = ((color1 & 0xFF) + (((color2 & 0xFF) - (color1 & 0xFF)) * ratio));
-
-	return (r << 16 | g << 8 | b);
-}
-
-
-float ft_map(float value, float in_min, float in_max)
-{
-	return (value - in_min) * (100 - 1) / (in_max - in_min) + 1;
+	return ((value - in_min) * (100 - 1) / (in_max - in_min) + 1);
 }

@@ -2,7 +2,7 @@
 
 t_list	*create_node(int z, int color)
 {
-	t_list *new_node;
+	t_list	*new_node;
 
 	new_node = malloc(sizeof(t_list));
 	new_node->z = z;
@@ -15,8 +15,8 @@ t_list	*create_node(int z, int color)
 
 void	insert_node(t_list *head_node, int z, int color)
 {
-	t_list *new_node;
-	t_list *last_node;
+	t_list	*new_node;
+	t_list	*last_node;
 
 	new_node = create_node(z, color);
 	last_node = head_node->last;
@@ -30,5 +30,5 @@ void	array_to_node(t_env *env, t_list *node, int i)
 	if (!node)
 		return ;
 	env->array[i] = node;
-	array_to_node(env ,node->next, i + 1);
+	array_to_node(env, node->next, i + 1);
 }

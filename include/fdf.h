@@ -52,22 +52,22 @@ typedef struct s_list
 
 typedef struct s_points
 {
-	int	index_1;
-	int	index_2;
+	int		color1;
+	int		color2;
 
 	float	x1;
 	float	y1;
 	float	x2;
 	float	y2;
-	int	z1;
-	int	z2;
+	int		z1;
+	int		z2;
 
-	int dx;
-	int dy;
-	int dz;
-	int sx;
+	int	dx;
+	int	dy;
+	int	dz;
+	int	sx;
 	int	sy;
-	int err;
+	int	err;
 	int	e2;
 
 	int	total_steps;
@@ -85,6 +85,8 @@ typedef struct s_env
 	float	z_factor;
 	int		z_factor_select;
 	int		cell_size;
+	int		color1;
+	int		color2;
 	t_list	**array;
 	int	min;
 	int	max;

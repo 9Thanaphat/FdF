@@ -58,10 +58,11 @@ int	free_read(t_env *env, int fd, char *read, char **split)
 {
 	printf("free read\n");
 	free_split(split);
-	free(read);
-	while ((read = get_next_line(fd)))
+	read = get_next_line(fd);
+	while (read)
 	{
 		free(read);
+		read = get_next_line(fd);
 	}
 	close(fd);
 	free(env->array);
@@ -74,7 +75,8 @@ int	read_to_array(int fd, t_env *env, t_list **node)
 	char	**split;
 	int		count_col;
 
-	while ((read = get_next_line(fd)))
+	read = get_next_line(fd);
+	while (read)
 	{
 		read = ft_trim_newline(read);
 		split = ft_split(read, ' ');
@@ -91,6 +93,7 @@ int	read_to_array(int fd, t_env *env, t_list **node)
 		free_split(split);
 		free(read);
 		env->row++;
+		read = get_next_line(fd);
 	}
 	close(fd);
 	to_array(env, *node);
