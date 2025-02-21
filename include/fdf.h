@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 14:46:38 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 14:47:29 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:51:01 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@
 # include "libft.h"
 # include "ft_printf.h"
 # include "get_next_line.h"
-# include <string.h>
 # include <X11/X.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <math.h>
 
-# define PI 3.141592653589793
+# define PI 3.14
 # define WIDTH 1920
 # define HEIGHT 1080
 # define ESC 65307

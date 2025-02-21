@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:56 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 14:44:47 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:44:36 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	set_env(t_env *env)
 	env->z_factor_select = 1;
 	env->min = 0;
 	env->max = 0;
-	env->color1 = 0xe63cc6;
-	env->color2 = 0x3ccce6;
+	env->color1 = 0x2559db;
+	env->color2 = 0x4abdff;
 	env->array = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:09:22 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 13:09:23 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:44:59 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	my_clear_img(t_data *data)
 		i = 0;
 		while (i < WIDTH)
 		{
-			my_mlx_pixel_put(data, i, j, 0x000000);
+			my_mlx_pixel_put(data, i, j, 0x0a171f);
 			i++;
 		}
 		j++;

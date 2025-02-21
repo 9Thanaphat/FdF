@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:46 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 14:27:22 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:45:38 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(int argc, char **argv)
 	img.addr = mlx_get_data_addr(img.img,
 			&img.bits_per_pixel, &img.line_length, &img.endian);
 	vars.img_ptr = &img;
+	my_clear_img(&img);
 	draw_line_horizontal(&env, &vars, &img);
 	draw_line_vertical(&env, &vars, &img);
 	mlx_hook(vars.mlx_window, 2, 1L << 0, key_press, &vars);
