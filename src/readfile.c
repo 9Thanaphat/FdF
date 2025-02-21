@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:09:00 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 13:09:01 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:25:29 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,6 @@ void	get_color(t_list **node, t_env *env, char *split)
 	get_min_max(env, value);
 }
 
-int	free_read(t_env *env, int fd, char *read, char **split)
-{
-	printf("free read\n");
-	free_split(split);
-	read = get_next_line(fd);
-	while (read)
-	{
-		free(read);
-		read = get_next_line(fd);
-	}
-	close(fd);
-	free(env->array);
-	return (-1);
-}
-
 int	read_to_array(int fd, t_env *env, t_list **node)
 {
 	char	*read;
@@ -101,15 +86,13 @@ int	read_to_array(int fd, t_env *env, t_list **node)
 		if (env->row == 0)
 			env->col = count_col;
 		else if (count_col != env->col)
-			return (free_read(env, fd, read, split));
+			return (free_read(env, node, fd, read, split));
 		free_split(split);
 		free(read);
 		env->row++;
 		read = get_next_line(fd);
 	}
-	close(fd);
-	to_array(env, *node);
-	return (0);
+	return (read_to_array_extend(fd, env, node));
 }
 
 int	read_file(char *file_name, t_env *env)
@@ -122,9 +105,6 @@ int	read_file(char *file_name, t_env *env)
 	set_env(env);
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
-	{
-		ft_printf("Error opening file\n");
 		return (-1);
-	}
 	return (read_to_array(fd, env, &node));
 }

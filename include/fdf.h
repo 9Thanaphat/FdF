@@ -51,14 +51,12 @@ typedef struct s_points
 {
 	int		color1;
 	int		color2;
-
 	float	x1;
 	float	y1;
 	float	x2;
 	float	y2;
 	int		z1;
 	int		z2;
-
 	int	dx;
 	int	dy;
 	int	dz;
@@ -111,31 +109,26 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	draw_line(t_points *points, t_vars *vars);
 void	my_clear_img(t_data *data);
 int		read_file(char *file_name, t_env *env);
+int		to_array(t_env *env, t_list *node);
 void	draw_line_horizontal(t_env *env, t_vars *vars, t_data *img);
 void	draw_line_vertical(t_env *env, t_vars *vars, t_data *img);
-
-int 	ft_gradient(int color1, int color2, int percent);
+int		ft_gradient(int color1, int color2, int percent);
 float	ft_map(float value, float in_min, float in_max);
 char	*ft_trim_newline(char *str);
 void	free_split(char **split);
-
-int key_press(int keycode, t_vars *vars);
-int close_window(t_vars *vars);
-
+int		free_read(t_env *env,t_list **node, int fd, char *read, char **split);
+int		read_to_array_extend(int fd, t_env *env, t_list **node);
+int		key_press(int keycode, t_vars *vars);
+int		close_window(t_vars *vars);
 t_list	*create_node(int height, int color);
 void	insert_node(t_list *head_node, int height, int color);
 void	array_to_node(t_env *env, t_list *node, int index);
-
-void rotate(t_list *node, t_env *env, float *sx, float *sy);
-void env_ui(t_vars *vars);
-
-int chartonum(char c);
-int	to_rgb(char *s);
-
+void	rotate(t_list *node, t_env *env, float *sx, float *sy);
+void	env_ui(t_vars *vars);
+int		chartonum(char c);
+int		to_rgb(char *s);
 void	get_min_max(t_env *env, int val);
-
 void	text_display(t_vars *vars);
-
 void	set_env(t_env *env);
 
 #endif

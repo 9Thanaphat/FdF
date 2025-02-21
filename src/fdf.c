@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:46 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 13:08:47 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:27:22 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	check_read_file(t_env *env, int argc, char **argv)
 	{
 		if (read_file(argv[1], env) == -1)
 		{
+			ft_printf("Error opening file!\n");
 			exit(0);
 			return (-1);
 		}
@@ -37,7 +38,7 @@ int	main(int argc, char **argv)
 	t_vars	vars;
 	t_data	img;
 
-	if ((check_read_file(&env, argc, argv)) != 0)
+	if ((check_read_file(&env, argc, argv)) == -1)
 		return (0);
 	vars.mlx_ptr = mlx_init();
 	vars.mlx_window = mlx_new_window(vars.mlx_ptr, WIDTH, HEIGHT, argv[1]);

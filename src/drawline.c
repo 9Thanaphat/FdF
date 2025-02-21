@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:40 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 13:12:28 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:32:22 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	set_drawline_params(t_vars *vars, t_points *p)
 		p->sy = 1;
 	else
 		p->sy = -1;
-	p->dx = abs(p->x2 - p->x1);
-	p->dy = abs(p->y2 - p->y1);
+	p->dx = abs((int)p->x2 - (int)p->x1);
+	p->dy = abs((int)p->y2 - (int)p->y1);
 	p->err = p->dx - p->dy;
 	if (p->dx > p->dy)
 		p->total_steps = p->dx;
