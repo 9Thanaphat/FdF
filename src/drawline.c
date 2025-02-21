@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:40 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 14:32:22 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:54:26 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	set_drawline_params(t_vars *vars, t_points *p)
 	drawline(vars, p);
 }
 
-void	draw_line_horizontal(t_env *env, t_vars *vars, t_data *img)
+void	draw_line_horizontal(t_env *env, t_vars *vars)
 {
 	t_points	p;
 	int			i;
@@ -97,7 +97,7 @@ void	draw_line_horizontal(t_env *env, t_vars *vars, t_data *img)
 	}
 }
 
-void	draw_line_vertical(t_env *env, t_vars *vars, t_data *img)
+void	draw_line_vertical(t_env *env, t_vars *vars)
 {
 	t_points	p;
 	int			i;

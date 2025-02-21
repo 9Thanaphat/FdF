@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 14:46:38 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 15:51:01 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:54:42 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@
 # define KEY_X 120
 # define KEY_PAGE_UP 65365
 # define KEY_PAGE_DOWN 65366
-# define KEY_DEL 65535
 # define KEY_R 114
-# define KEY_CTRL 65307
 
 typedef struct s_list
 {
@@ -120,8 +118,8 @@ void	draw_line(t_points *points, t_vars *vars);
 void	my_clear_img(t_data *data);
 int		read_file(char *file_name, t_env *env);
 int		to_array(t_env *env, t_list *node);
-void	draw_line_horizontal(t_env *env, t_vars *vars, t_data *img);
-void	draw_line_vertical(t_env *env, t_vars *vars, t_data *img);
+void	draw_line_horizontal(t_env *env, t_vars *vars);
+void	draw_line_vertical(t_env *env, t_vars *vars);
 int		ft_gradient(int color1, int color2, int percent);
 float	ft_map(float value, float in_min, float in_max);
 char	*ft_trim_newline(char *str);

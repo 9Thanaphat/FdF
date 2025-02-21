@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:25 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 13:16:45 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:52:57 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	chartonum(char c)
 
 int	to_rgb(char *s)
 {
-	int	t;
 	int	i;
 	int	r;
 	int	g;

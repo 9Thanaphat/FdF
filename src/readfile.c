@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:09:00 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 15:40:14 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:53:25 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	read_to_array(t_env *env, t_list **node)
 
 int	read_file(char *file_name, t_env *env)
 {
-	char	*read;
 	t_list	*node;
 
 	node = NULL;

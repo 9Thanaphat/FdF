@@ -15,7 +15,7 @@ MLX	= $(MLX_DIR)/libmlx_Linux.a
 
 
 CC			= cc
-CFLAGS		= -I$(INCDIR)
+CFLAGS		= -Wall -Wextra -Werror -I$(INCDIR)
 RM			= rm -f
 AR			= ar rcs
 

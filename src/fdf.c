@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:46 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 15:45:38 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:57:57 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	main(int argc, char **argv)
 			&img.bits_per_pixel, &img.line_length, &img.endian);
 	vars.img_ptr = &img;
 	my_clear_img(&img);
-	draw_line_horizontal(&env, &vars, &img);
-	draw_line_vertical(&env, &vars, &img);
+	draw_line_horizontal(&env, &vars);
+	draw_line_vertical(&env, &vars);
 	mlx_hook(vars.mlx_window, 2, 1L << 0, key_press, &vars);
 	mlx_hook(vars.mlx_window, 17, 0, close_window, &vars);
 	mlx_put_image_to_window(vars.mlx_ptr, vars.mlx_window, img.img, 0, 0);

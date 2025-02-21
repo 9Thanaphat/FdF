@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:33 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 13:18:06 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:58:18 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ int	key_press(int key, t_vars *vars)
 		close_window(vars);
 	set_z_factor(vars);
 	my_clear_img(vars->img_ptr);
-	draw_line_horizontal(vars->env, vars, vars->img_ptr);
-	draw_line_vertical(vars->env, vars, vars->img_ptr);
+	draw_line_horizontal(vars->env, vars);
+	draw_line_vertical(vars->env, vars);
 	mlx_put_image_to_window(vars->mlx_ptr, vars->mlx_window,
 		vars->img_ptr->img, 0, 0);
 	text_display(vars);
