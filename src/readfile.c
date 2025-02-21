@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:09:00 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 14:43:44 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:40:14 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	read_to_array(t_env *env, t_list **node)
 		if (env->row == 0)
 			env->col = count_col;
 		else if (count_col != env->col)
-			return (free_read(env, node, env->fd, read, split));
+			return (free_read(env, node, read, split));
 		free_split(split);
 		free(read);
 		env->row++;
