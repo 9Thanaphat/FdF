@@ -6,25 +6,25 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:13:51 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 14:22:10 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:44:21 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	free_read(t_env *env, t_list **node, int fd, char *read, char **split)
+int	free_read(t_env *env, t_list **node, char *read, char **split)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	free_split(split);
 	free(read);
-	read = get_next_line(fd);
+	read = get_next_line(env->fd);
 	while (read)
 	{
 		free(read);
-		read = get_next_line(fd);
+		read = get_next_line(env->fd);
 	}
-	close(fd);
+	close(env->fd);
 	while ((*node)->next != NULL)
 	{
 		tmp = *node;

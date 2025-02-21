@@ -6,15 +6,15 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:56 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 14:25:36 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:44:47 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	read_to_array_extend(int fd, t_env *env, t_list **node)
+int	read_to_array_extend(t_env *env, t_list **node)
 {
-	close(fd);
+	close(env->fd);
 	to_array(env, *node);
 	return (0);
 }

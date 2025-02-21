@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/21 14:46:38 by ttangcha          #+#    #+#             */
+/*   Updated: 2025/02/21 14:47:29 by ttangcha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FDF_H
 # define FDF_H
 # include "mlx.h"
@@ -45,7 +57,7 @@ typedef struct s_list
 	struct s_list	*next;
 	struct s_list	*prev;
 	struct s_list	*last;
-}	t_list;
+}		t_list;
 
 typedef struct s_points
 {
@@ -57,15 +69,14 @@ typedef struct s_points
 	float	y2;
 	int		z1;
 	int		z2;
-	int	dx;
-	int	dy;
-	int	dz;
-	int	sx;
-	int	sy;
-	int	err;
-	int	e2;
-
-	int	total_steps;
+	int		dx;
+	int		dy;
+	int		dz;
+	int		sx;
+	int		sy;
+	int		err;
+	int		e2;
+	int		total_steps;
 }	t_points;
 
 typedef struct s_env
@@ -83,9 +94,9 @@ typedef struct s_env
 	int		color1;
 	int		color2;
 	t_list	**array;
-	int	min;
-	int	max;
-	int	env_ui;
+	int		min;
+	int		max;
+	int		fd;
 }	t_env;
 
 typedef struct s_data
@@ -116,8 +127,8 @@ int		ft_gradient(int color1, int color2, int percent);
 float	ft_map(float value, float in_min, float in_max);
 char	*ft_trim_newline(char *str);
 void	free_split(char **split);
-int		free_read(t_env *env,t_list **node, int fd, char *read, char **split);
-int		read_to_array_extend(int fd, t_env *env, t_list **node);
+int		free_read(t_env *env, t_list **node, char *read, char **split);
+int		read_to_array_extend(t_env *env, t_list **node);
 int		key_press(int keycode, t_vars *vars);
 int		close_window(t_vars *vars);
 t_list	*create_node(int height, int color);
