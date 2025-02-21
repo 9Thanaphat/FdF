@@ -30,10 +30,7 @@
 # define KEY_PAGE_UP 65365
 # define KEY_PAGE_DOWN 65366
 # define KEY_DEL 65535
-# define KEY_1 49
-# define KEY_2 50
-# define KEY_3 51
-# define KEY_4 52
+# define KEY_R 114
 # define KEY_CTRL 65307
 
 typedef struct s_list
@@ -112,7 +109,7 @@ typedef struct s_vars
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	draw_line(t_points *points, t_vars *vars);
-void	my_clear_img(t_data *data, int w, int h);
+void	my_clear_img(t_data *data);
 int		read_file(char *file_name, t_env *env);
 void	draw_line_horizontal(t_env *env, t_vars *vars, t_data *img);
 void	draw_line_vertical(t_env *env, t_vars *vars, t_data *img);

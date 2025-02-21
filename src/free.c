@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/21 13:19:12 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 13:19:12 by ttangcha         ###   ########.fr       */
+/*   Created: 2025/02/21 13:13:51 by ttangcha          #+#    #+#             */
+/*   Updated: 2025/02/21 13:13:51 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fdf.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+int	close_window(t_vars *vars)
 {
-	void	*ptr;
-	size_t	s;
+	int	i;
 
-	s = (size_t)(nmemb * size);
-	if ((long)nmemb == 0 || (long)size == 0)
-		s = 0;
-	else if ((long)nmemb < 0 || (long)size < 0)
-		return (NULL);
-	ptr = malloc(s);
-	if (!ptr)
-		return (NULL);
-	ft_bzero(ptr, s);
-	return (ptr);
+	i = 0;
+	while (i < vars->env->col * vars->env->row)
+	{
+		free(vars->env->array[i]);
+		i++;
+	}
+	mlx_destroy_image(vars->mlx_ptr, vars->img_ptr->img);
+	mlx_destroy_window(vars->mlx_ptr, vars->mlx_window);
+	mlx_destroy_display(vars->mlx_ptr);
+	free(vars->env->array);
+	free(vars->mlx_ptr);
+	exit(0);
+	return (0);
 }

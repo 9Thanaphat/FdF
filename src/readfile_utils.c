@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   readfile_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/21 13:08:56 by ttangcha          #+#    #+#             */
+/*   Updated: 2025/02/21 13:08:56 by ttangcha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 void	get_min_max(t_env *env, int val)
@@ -22,8 +34,7 @@ void	set_env(t_env *env)
 	env->z_factor_select = 1;
 	env->min = 0;
 	env->max = 0;
-	env->color1 = 0xFF0000;
-	env->color2 = 0x0000FF;
+	env->color1 = 0xe63cc6;
+	env->color2 = 0x3ccce6;
 	env->array = NULL;
-	env->env_ui = 1;
 }

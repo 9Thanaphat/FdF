@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/21 13:09:22 by ttangcha          #+#    #+#             */
+/*   Updated: 2025/02/21 13:09:23 by ttangcha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
@@ -10,18 +22,18 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	my_clear_img(t_data *data, int w, int h)
+void	my_clear_img(t_data *data)
 {
 	int	i;
 	int	j;
 
 	j = 0;
-	while (j < h)
+	while (j < HEIGHT)
 	{
 		i = 0;
-		while (i < w)
+		while (i < WIDTH)
 		{
-			my_mlx_pixel_put(data, i, j, 0x00000000);
+			my_mlx_pixel_put(data, i, j, 0x000000);
 			i++;
 		}
 		j++;

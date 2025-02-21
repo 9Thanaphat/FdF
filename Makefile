@@ -29,6 +29,7 @@ SRC			= fdf.c \
 			  text_display.c \
 			  readfile_utils.c \
 			  utils.c \
+			  free.c \
 
 OBJ 		= $(SRC:%.c=$(OBJ_DIR)/%.o)
 

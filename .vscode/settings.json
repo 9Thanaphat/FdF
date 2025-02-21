@@ -3,7 +3,8 @@
 		"fdf.h": "c",
 		"mlx.h": "c",
 		"get_next_line.h": "c",
-		"string.h": "c"
+		"string.h": "c",
+		"libft.h": "c"
 	},
 	"files.trimTrailingWhitespace": true,
 	"editor.insertSpaces": false,

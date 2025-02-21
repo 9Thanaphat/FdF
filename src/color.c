@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/21 13:08:25 by ttangcha          #+#    #+#             */
+/*   Updated: 2025/02/21 13:16:45 by ttangcha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
-int chartonum(char c)
+int	chartonum(char c)
 {
 	if (c >= 'a' && c <= 'f')
 		return ((c - 'a') + 10);
@@ -15,10 +27,10 @@ int chartonum(char c)
 int	to_rgb(char *s)
 {
 	int	t;
-	int i;
-	int r;
-	int g;
-	int b;
+	int	i;
+	int	r;
+	int	g;
+	int	b;
 
 	r = 0;
 	g = 0;
@@ -37,14 +49,16 @@ int	to_rgb(char *s)
 	return (r << 16 | g << 8 | b);
 }
 
-int ft_gradient(int color1, int color2, int percent)
+int	ft_gradient(int c1, int c2, int per)
 {
 	int	r;
 	int	g;
 	int	b;
 
-	r = ((color1 >> 16) & 0xFF) + ((((color2 >> 16) & 0xFF) - ((color1 >> 16) & 0xFF)) * percent / 100);
-	g = ((color1 >> 8) & 0xFF) + ((((color2 >> 8) & 0xFF) - ((color1 >> 8) & 0xFF)) * percent / 100);
-	b = ((color1 & 0xFF) + (((color2 & 0xFF) - (color1 & 0xFF)) * percent / 100));
+	r = ((c1 >> 16) & 0xFF) + ((((c2 >> 16) & 0xFF)
+				- ((c1 >> 16) & 0xFF)) * per / 100);
+	g = ((c1 >> 8) & 0xFF) + ((((c2 >> 8) & 0xFF)
+				- ((c1 >> 8) & 0xFF)) * per / 100);
+	b = ((c1 & 0xFF) + (((c2 & 0xFF) - (c1 & 0xFF)) * per / 100));
 	return (r << 16 | g << 8 | b);
 }

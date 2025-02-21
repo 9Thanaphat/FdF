@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   drawline.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/21 13:08:40 by ttangcha          #+#    #+#             */
+/*   Updated: 2025/02/21 13:12:28 by ttangcha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 void	check_color(t_vars *vars, t_points *p)
@@ -18,11 +30,11 @@ void	drawline(t_vars *vars, t_points *p)
 	while (1)
 	{
 		z_curr = p->z1 + (p->z2 - p->z1) * ((float)step / p->total_steps);
-		my_mlx_pixel_put(vars->img_ptr, p->x1, p->y1, ft_gradient(p->color1, p->color2,
-			ft_map(z_curr, vars->env->min, vars->env->max)));
+		my_mlx_pixel_put(vars->img_ptr, p->x1, p->y1, ft_gradient(p->color1,
+				p->color2, ft_map(z_curr, vars->env->min, vars->env->max)));
 		if (p->x1 == p->x2 && p->y1 == p->y2)
 			break ;
-			p->e2 = 2 * p->err;
+		p->e2 = 2 * p->err;
 		if (p->e2 > -p->dy)
 		{
 			p->err -= p->dy;
@@ -47,9 +59,9 @@ void	set_drawline_params(t_vars *vars, t_points *p)
 		p->sy = 1;
 	else
 		p->sy = -1;
-		p->dx = abs(p->x2 - p->x1);
-		p->dy = abs(p->y2 - p->y1);
-		p->err = p->dx - p->dy;
+	p->dx = abs(p->x2 - p->x1);
+	p->dy = abs(p->y2 - p->y1);
+	p->err = p->dx - p->dy;
 	if (p->dx > p->dy)
 		p->total_steps = p->dx;
 	else
@@ -99,6 +111,8 @@ void	draw_line_vertical(t_env *env, t_vars *vars, t_data *img)
 		{
 			if (j < (env->row - 1))
 			{
+				p.color1 = env->array[j * env->col + i]->color;
+				p.color2 = env->array[(j + 1) * env->col + i]->color;
 				rotate(env->array[j * env->col + i], env, &p.x1, &p.y1);
 				rotate(env->array[(j + 1) * env->col + i], env, &p.x2, &p.y2);
 				p.z1 = env->array[j * env->col + i]->z;
