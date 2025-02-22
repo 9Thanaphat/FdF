@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:33 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 16:58:18 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/22 07:50:07 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	rotation(int key, t_vars *vars)
 		vars->env->cell_size++;
 	if (key == KEY_MINUS && vars->env->cell_size > 1)
 		vars->env->cell_size--;
+	update_rad(vars->env);
 }
 
 void	change_projection(int key, t_vars *vars)

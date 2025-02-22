@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 14:46:38 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/22 07:17:05 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/22 07:49:19 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,9 @@
 
 typedef struct s_list
 {
-	double			x;
-	double			y;
-	double			z;
-	double			temp_x;
-	double			temp_y;
-	double			temp_z;
+	float			x;
+	float			y;
+	float			z;
 	int				color;
 	struct s_list	*next;
 	struct s_list	*prev;
@@ -78,9 +75,15 @@ typedef struct s_points
 
 typedef struct s_env
 {
-	float	a_x;
-	float	a_y;
-	float	a_z;
+	int		a_x;
+	int		a_y;
+	int		a_z;
+	float	a_x_rad;
+	float	a_y_rad;
+	float	a_z_rad;
+	float	temp_x;
+	float	temp_y;
+	float	temp_z;
 	int		row;
 	int		col;
 	int		offset_x;
@@ -139,5 +142,6 @@ void	get_min_max(t_env *env, int val);
 void	text_display(t_vars *vars);
 void	set_env(t_env *env);
 int		hex_to_int(const char *str);
+void	update_rad(t_env *env);
 
 #endif
