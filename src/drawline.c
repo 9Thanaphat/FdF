@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:40 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 16:54:26 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/22 07:07:58 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	check_color(t_vars *vars, t_points *p)
 {
-	if (p->color1 == 0)
+	if (p->color1 == -1)
 		p->color1 = vars->env->color1;
-	if (p->color2 == 0)
+	if (p->color2 == -1)
 		p->color2 = vars->env->color2;
 }
 

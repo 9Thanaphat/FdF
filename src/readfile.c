@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:09:00 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 16:53:25 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/22 07:17:03 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ void	get_color(t_list **node, t_env *env, char *split)
 		if (!split_color)
 			return ;
 		value = ft_atoi(split_color[0]);
-		color = to_rgb(split_color[1]);
+		color = hex_to_int(split_color[1]);
 		free_split(split_color);
 	}
 	else
 	{
 		value = ft_atoi(split);
-		color = 0;
+		color = -1;
 	}
 	if (*node == NULL)
 		*node = create_node(value, color);

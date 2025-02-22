@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 14:46:38 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 16:54:42 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/22 07:17:05 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,5 +138,6 @@ int		to_rgb(char *s);
 void	get_min_max(t_env *env, int val);
 void	text_display(t_vars *vars);
 void	set_env(t_env *env);
+int		hex_to_int(const char *str);
 
 #endif
