@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:20:38 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 13:20:39 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/23 13:12:10 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ int	count_word(char const *s, char c)
 		while (s[i] == c)
 			i++;
 		if (s[i] != c && s[i])
-		    word++;
+			word++;
 		while (s[i] != c && s[i])
 			i++;
 	}
 	return (word);
-
 }
 
 char	**ft_split(char const *s, char c)
@@ -41,7 +40,7 @@ char	**ft_split(char const *s, char c)
 	int		len;
 
 	word = count_word(s, c);
-	split = malloc(sizeof(char*) * (word + 1));
+	split = malloc(sizeof(char *) * (word + 1));
 	if (!split)
 		return (NULL);
 	i = 0;

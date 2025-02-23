@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:33 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/22 07:50:07 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/23 13:08:22 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	change_projection(int key, t_vars *vars)
 		vars->env->a_y = -30;
 		vars->env->a_z = 30;
 	}
+	update_rad(vars->env);
 }
 
 int	key_press(int key, t_vars *vars)
