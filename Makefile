@@ -15,7 +15,7 @@ MLX	= $(MLX_DIR)/libmlx_Linux.a
 
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -I$(INCDIR)
+CFLAGS		= -Wall -Wextra -Werror -I$(INCDIR) -g3
 RM			= rm -f
 AR			= ar rcs
 
@@ -23,6 +23,7 @@ SRC			= fdf.c \
 			  list.c \
 			  readfile.c \
 			  control.c \
+			  control_utils.c \
 			  rotate.c \
 			  drawline.c \
 			  color.c \

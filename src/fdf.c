@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:46 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/22 07:39:43 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:31:23 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	check_read_file(t_env *env, int argc, char **argv)
 		if (read_file(argv[1], env) == -1)
 		{
 			ft_printf("Error opening file!\n");
-			exit(0);
 			return (-1);
 		}
 		else
@@ -48,6 +47,7 @@ int	main(int argc, char **argv)
 			&img.bits_per_pixel, &img.line_length, &img.endian);
 	vars.img_ptr = &img;
 	my_clear_img(&img);
+	adjust_env(&env);
 	update_rad(&env);
 	draw_line_horizontal(&env, &vars);
 	draw_line_vertical(&env, &vars);

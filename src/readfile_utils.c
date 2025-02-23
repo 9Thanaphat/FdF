@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:56 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/21 15:44:36 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/23 22:25:28 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	set_env(t_env *env)
 	env->a_z = 30;
 	env->col = 0;
 	env->row = 0;
-	env->offset_x = 0;
-	env->offset_y = 0;
+	env->offset_x = WIDTH / 2;
+	env->offset_y = HEIGHT / 2;
 	env->cell_size = 25;
 	env->z_factor = 0.25;
 	env->z_factor_select = 1;
@@ -44,4 +44,45 @@ void	set_env(t_env *env)
 	env->color1 = 0x2559db;
 	env->color2 = 0x4abdff;
 	env->array = NULL;
+	env->fd = -1;
+	env->move_flag = 1;
+}
+
+void	adjust_env(t_env *env)
+{
+	if (env->row >= 100 || env->col >= 100)
+		env->cell_size = 10;
+	if (env->row >= 150 || env->col >= 150)
+		env->cell_size = 6;
+	if (env->row >= 250 || env->col >= 250)
+		env->cell_size = 5;
+	if (env->row >= 500 || env->col >= 500)
+		env->cell_size = 2;
+}
+
+int	is_fdf(char *file_name)
+{
+	char	**split;
+	int		cmp;
+
+	if (ft_strchr(file_name, '.'))
+	{
+		split = ft_split(file_name, '.');
+		if (split[0] && split[1])
+		{
+			cmp = ft_strncmp(split[1], "fdf", 3);
+			if (cmp != 0)
+			{
+				free_split(split);
+				return (-1);
+			}
+			else
+			{
+				free_split(split);
+				return (0);
+			}
+		}
+		free_split(split);
+	}
+	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 14:46:38 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/22 07:49:19 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/23 22:04:59 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include "get_next_line.h"
 # include <X11/X.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include <unistd.h>
 # include <math.h>
 
@@ -78,9 +77,9 @@ typedef struct s_env
 	int		a_x;
 	int		a_y;
 	int		a_z;
-	float	a_x_rad;
-	float	a_y_rad;
-	float	a_z_rad;
+	double	a_x_rad;
+	double	a_y_rad;
+	double	a_z_rad;
 	float	temp_x;
 	float	temp_y;
 	float	temp_z;
@@ -97,6 +96,7 @@ typedef struct s_env
 	int		min;
 	int		max;
 	int		fd;
+	int		move_flag;
 }	t_env;
 
 typedef struct s_data
@@ -143,5 +143,8 @@ void	text_display(t_vars *vars);
 void	set_env(t_env *env);
 int		hex_to_int(const char *str);
 void	update_rad(t_env *env);
+void	redraw(t_vars *vars);
+void	adjust_env(t_env *env);
+int		is_fdf(char *file_name);
 
 #endif

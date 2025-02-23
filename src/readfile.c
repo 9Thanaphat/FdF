@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:09:00 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/22 07:17:03 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/23 22:05:27 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,19 @@ void	get_color(t_list **node, t_env *env, char *split)
 	get_min_max(env, value);
 }
 
+int	is_directory(char *path)
+{
+	int	fd;
+
+	fd = open(path, __O_DIRECTORY);
+	if (fd >= 0)
+	{
+		close(fd);
+		return (0);
+	}
+	return (-1);
+}
+
 int	read_to_array(t_env *env, t_list **node)
 {
 	char	*read;
@@ -99,8 +112,12 @@ int	read_file(char *file_name, t_env *env)
 {
 	t_list	*node;
 
+	if (is_fdf(file_name) != 0)
+		return (-1);
 	node = NULL;
 	set_env(env);
+	if (is_directory(file_name) == 0)
+		return (-1);
 	env->fd = open(file_name, O_RDONLY);
 	if (env->fd < 0)
 		return (-1);
