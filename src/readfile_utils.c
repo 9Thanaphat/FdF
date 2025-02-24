@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:56 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/23 22:25:28 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/24 22:49:07 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,27 +62,12 @@ void	adjust_env(t_env *env)
 
 int	is_fdf(char *file_name)
 {
-	char	**split;
-	int		cmp;
+	char	*ext;
 
-	if (ft_strchr(file_name, '.'))
-	{
-		split = ft_split(file_name, '.');
-		if (split[0] && split[1])
-		{
-			cmp = ft_strncmp(split[1], "fdf", 3);
-			if (cmp != 0)
-			{
-				free_split(split);
-				return (-1);
-			}
-			else
-			{
-				free_split(split);
-				return (0);
-			}
-		}
-		free_split(split);
-	}
-	return (-1);
+	if (!file_name)
+		return (-1);
+	ext = ft_strrchr(file_name, '.');
+	if (!ext || ft_strncmp(ext + 1, "fdf", 3) != 0 || ft_strlen(ext + 1) != 3)
+		return (-1);
+	return (0);
 }
