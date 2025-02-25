@@ -22,6 +22,7 @@ AR			= ar rcs
 SRC			= fdf.c \
 			  list.c \
 			  readfile.c \
+			  check.c \
 			  control.c \
 			  control_utils.c \
 			  rotate.c \

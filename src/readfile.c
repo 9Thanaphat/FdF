@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:09:00 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/23 22:05:27 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:12:14 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,33 @@ int	to_array(t_env *env, t_list *node)
 	return (0);
 }
 
-void	get_color(t_list **node, t_env *env, char *split)
+int	get_color(t_list **node, t_env *env, char *split)
 {
 	char	**split_color;
-	int		value;
-	int		color;
 
+	env->check = 0;
 	if (ft_strchr(split, ','))
 	{
 		split_color = ft_split(split, ',');
 		if (!split_color)
-			return ;
-		value = ft_atoi(split_color[0]);
-		color = hex_to_int(split_color[1]);
+			return (-1);
+		env->check = check_valid(split_color[0]);
+		env->value = ft_atoi(split_color[0]);
+		env->color = hex_to_int(split_color[1]);
 		free_split(split_color);
 	}
 	else
 	{
-		value = ft_atoi(split);
-		color = -1;
+		env->check = check_valid(split);
+		env->value = ft_atoi(split);
+		env->color = -1;
 	}
 	if (*node == NULL)
-		*node = create_node(value, color);
+		*node = create_node(env->value, env->color);
 	else
-		insert_node(*node, value, color);
-	get_min_max(env, value);
+		insert_node(*node, env->value, env->color);
+	get_min_max(env, env->value);
+	return (env->check);
 }
 
 int	is_directory(char *path)
@@ -83,22 +85,22 @@ int	read_to_array(t_env *env, t_list **node)
 {
 	char	*read;
 	char	**split;
-	int		count_col;
 
 	read = get_next_line(env->fd);
 	while (read)
 	{
 		read = ft_trim_newline(read);
 		split = ft_split(read, ' ');
-		count_col = 0;
-		while (split[count_col] != NULL)
+		env->count_col = 0;
+		while (split[env->count_col] != NULL)
 		{
-			get_color(node, env, split[count_col]);
-			count_col++;
+			if ((get_color(node, env, split[env->count_col])) == -1)
+				return (free_read(env, node, read, split));
+			env->count_col++;
 		}
 		if (env->row == 0)
-			env->col = count_col;
-		else if (count_col != env->col)
+			env->col = env->count_col;
+		else if (env->count_col != env->col)
 			return (free_read(env, node, read, split));
 		free_split(split);
 		free(read);

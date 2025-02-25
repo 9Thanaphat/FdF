@@ -6,7 +6,7 @@
 /*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 14:46:38 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/23 22:04:59 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:10:31 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,10 @@ typedef struct s_env
 	int		min;
 	int		max;
 	int		fd;
+	int		count_col;
+	int		value;
+	int		color;
+	int		check;
 	int		move_flag;
 }	t_env;
 
@@ -146,5 +150,6 @@ void	update_rad(t_env *env);
 void	redraw(t_vars *vars);
 void	adjust_env(t_env *env);
 int		is_fdf(char *file_name);
+int		check_valid(char *value);
 
 #endif
