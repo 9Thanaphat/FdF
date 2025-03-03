@@ -1,4 +1,4 @@
-FDF is a 3D wireframe model viewer written in C using the MiniLibX graphics library. The project focuses on rendering 3D maps from 2D heightmap files, applying transformations, and displaying them using isometric projection.
+FDF is a 3D wireframe model viewer written in C using the MiniLibX graphics library. The project focuses on rendering 3D maps from 2D heightmap files, applying transformations, and displaying them using isometric projection.\n
 🛠 Features
 ✅ Parses heightmaps from .fdf files
 ✅ Renders wireframe models using Bresenham's line algorithm
