@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readfile.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ttangcha <ttangcha@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:09:00 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/25 22:12:14 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/10/29 23:50:07 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,7 @@ int	read_file(char *file_name, t_env *env)
 	env->fd = open(file_name, O_RDONLY);
 	if (env->fd < 0)
 		return (-1);
+	env->center_x = (env->col - 1) / 2.0;
+	env->center_y = (env->row - 1) / 2.0;
 	return (read_to_array(env, &node));
 }

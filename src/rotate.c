@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotate.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ttangcha <ttangcha@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:09:11 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/23 22:04:04 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/10/29 23:47:34 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,13 @@ void	rotate(t_list *node, t_env *env, float *sx, float *sy)
 	float	x;
 	float	y;
 	float	z;
+	float	center_x;
+	float	center_y;
 
-	x = node->x;
-	y = node->y;
+	center_x = (env->col - 1) / 2.0f;
+	center_y = (env->row - 1) / 2.0f;
+	x = node->x - center_x;
+	y = node->y - center_y;
 	z = node->z * env->z_factor;
 	env->temp_y = y * cos(env->a_x_rad) - z * sin(env->a_x_rad);
 	env->temp_z = y * sin(env->a_x_rad) + z * cos(env->a_x_rad);
@@ -38,8 +42,8 @@ void	rotate(t_list *node, t_env *env, float *sx, float *sy)
 	z = env->temp_z;
 	env->temp_x = x * cos(env->a_z_rad) - y * sin(env->a_z_rad);
 	env->temp_y = x * sin(env->a_z_rad) + y * cos(env->a_z_rad);
-	x = env->temp_x;
-	y = env->temp_y;
+	x = env->temp_x + center_x;
+	y = env->temp_y + center_y;
 	*sx = round((x * env->cell_size) + env->offset_x);
 	*sy = round((y * env->cell_size) + env->offset_y);
 }

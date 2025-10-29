@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ttangcha <ttangcha@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 14:46:38 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/25 22:10:31 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/10/29 23:44:29 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ typedef struct s_env
 	int		color;
 	int		check;
 	int		move_flag;
+	int		center_x;
+	int		center_y;
 }	t_env;
 
 typedef struct s_data

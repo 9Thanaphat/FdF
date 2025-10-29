@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readfile_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ttangcha <ttangcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ttangcha <ttangcha@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 13:08:56 by ttangcha          #+#    #+#             */
-/*   Updated: 2025/02/24 22:49:07 by ttangcha         ###   ########.fr       */
+/*   Updated: 2025/10/29 23:47:37 by ttangcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
